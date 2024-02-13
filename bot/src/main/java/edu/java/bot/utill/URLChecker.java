@@ -3,7 +3,6 @@ package edu.java.bot.utill;
 import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 @Slf4j

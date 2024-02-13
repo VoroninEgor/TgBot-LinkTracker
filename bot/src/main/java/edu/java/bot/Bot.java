@@ -14,8 +14,11 @@ import edu.java.bot.configuration.ApplicationConfig;
 import edu.java.bot.message.UserMessageProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Component
