@@ -1,19 +1,20 @@
 package edu.java.bot.model;
 
-import edu.java.bot.utill.command.Command;
 import lombok.Getter;
+import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 public class TrackingUser {
     private final Long chatId;
     private final List<String> trackList = new ArrayList<>();
-    private Command activeCommand = Command.UNKNOWN;
-
+    private String activeCommand;
 
     public TrackingUser(Long chatId) {
         this.chatId = chatId;
+        setWithoutActiveCommand();
     }
 
     public void track(String url) {
@@ -26,13 +27,8 @@ public class TrackingUser {
         trackList.remove(url);
     }
 
-    public void setActiveCommand(Command command) {
-        if (command.isActive()) {
-            activeCommand = command;
-        }
+    public void setWithoutActiveCommand() {
+        activeCommand = "NONE";
     }
 
-    public void finishCommand() {
-        activeCommand = Command.UNKNOWN;
-    }
 }
