@@ -24,9 +24,8 @@ public class TrackCommand extends AbstractCommand {
 
     @Override
     public SendMessage handle(Update update) {
-        TrackingUser trackingUser = trackingUserRepository.getTrackingUserByChatId(update.message().chat().id());
         Long chatId = update.message().chat().id();
-
+        TrackingUser trackingUser = trackingUserRepository.getTrackingUserByChatId(chatId);
         String url = messageUtils.parseUrlFromText(update.message().text());
         if (URLChecker.isValid(url)) {
             trackingUser.track(url);

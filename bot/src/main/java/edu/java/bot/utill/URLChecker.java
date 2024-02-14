@@ -1,12 +1,17 @@
 package edu.java.bot.utill;
 
-import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class URLChecker {
+public final class URLChecker {
+
+    private URLChecker() {
+    }
+
+    @SuppressWarnings("checkstyle:MagicNumber")
     public static boolean isValid(String url) {
         HttpURLConnection connection = null;
         try {
@@ -14,7 +19,6 @@ public class URLChecker {
             connection = (HttpURLConnection) u.openConnection();
             connection.setRequestMethod("HEAD");
             int code = connection.getResponseCode();
-            System.out.println("" + code);
             return code == 200;
         } catch (IOException e) {
             log.info("incorrect url");
