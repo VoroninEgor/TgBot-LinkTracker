@@ -3,9 +3,9 @@ package edu.java.bot.message;
 import edu.java.bot.command.AbstractCommand;
 import edu.java.bot.model.TrackingUser;
 import edu.java.bot.repository.TrackingUserRepository;
-import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 @Component
 public class MessageUtils {
@@ -16,12 +16,11 @@ public class MessageUtils {
     }
 
     public String getCommandsDescription(List<AbstractCommand> commands) {
-        String message = "Available commands:\n"
+        return "Available commands:\n"
             + commands.stream()
             .filter(command -> !command.getCommand().equals("/start"))
             .map(command -> command.getCommand() + " | " + command.getDescription())
             .collect(Collectors.joining("\n"));
-        return message;
     }
 
     public String getTrackList(Long chatId) {
@@ -45,8 +44,7 @@ public class MessageUtils {
         }
 
         int indexOfSpace = text.indexOf(" ");
-        String textBeforeSpace = text.substring(0, indexOfSpace != -1 ? indexOfSpace : text.length());
-        return textBeforeSpace;
+        return text.substring(0, indexOfSpace != -1 ? indexOfSpace : text.length());
     }
 
     public String parseUrlFromText(String text) {

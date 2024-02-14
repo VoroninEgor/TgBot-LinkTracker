@@ -1,9 +1,9 @@
 package edu.java.bot.repository;
 
 import edu.java.bot.model.TrackingUser;
-import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class TrackingUserRepository {

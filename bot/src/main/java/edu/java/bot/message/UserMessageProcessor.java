@@ -3,9 +3,9 @@ package edu.java.bot.message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.command.AbstractCommand;
+import java.util.List;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
-import java.util.List;
 
 @Component
 public class UserMessageProcessor {

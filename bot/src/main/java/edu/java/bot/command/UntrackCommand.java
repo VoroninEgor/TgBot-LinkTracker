@@ -5,7 +5,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.message.MessageUtils;
 import edu.java.bot.model.TrackingUser;
 import edu.java.bot.repository.TrackingUserRepository;
-import edu.java.bot.utill.URLChecker;
 import org.springframework.stereotype.Component;
 
 @Component

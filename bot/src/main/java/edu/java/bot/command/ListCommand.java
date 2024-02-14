@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 public class ListCommand extends AbstractCommand {
     private final static String COMMAND = "/list";
     private final static String DESCRIPTION = "Write tracking resources";
-    private String message;
     private final MessageUtils messageUtils;
 
     public ListCommand(MessageUtils messageUtils) {
@@ -20,7 +19,7 @@ public class ListCommand extends AbstractCommand {
     @Override
     public SendMessage handle(Update update) {
         Long chatId = update.message().chat().id();
-        message = messageUtils.getTrackList(chatId);
+        String message = messageUtils.getTrackList(chatId);
         return new SendMessage(chatId, message);
     }
 }
