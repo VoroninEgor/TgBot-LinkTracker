@@ -5,15 +5,13 @@ import edu.java.bot.model.TrackingUser;
 import edu.java.bot.repository.TrackingUserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class MessageUtils {
     private final TrackingUserRepository trackingUserRepository;
-
-    public MessageUtils(TrackingUserRepository trackingUserRepository) {
-        this.trackingUserRepository = trackingUserRepository;
-    }
 
     public String getCommandsDescription(List<AbstractCommand> commands) {
         return "Available commands:\n"

@@ -1,15 +1,12 @@
 package edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.BotCommand;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public abstract class AbstractCommand implements Command {
     private final String command;
     private final String description;
-
-    AbstractCommand(String command, String description) {
-        this.command = command;
-        this.description = description;
-    }
 
     @Override
     public String getCommand() {
@@ -22,12 +19,12 @@ public abstract class AbstractCommand implements Command {
     }
 
     @Override
-    public boolean supports(String command) {
-        return getCommand().equals(command);
+    public boolean supports(String providedCommand) {
+        return command.equals(providedCommand);
     }
 
     @Override
     public BotCommand toApiCommand() {
-        return new BotCommand(getCommand(), getDescription());
+        return new BotCommand(command, description);
     }
 }

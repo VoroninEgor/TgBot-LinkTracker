@@ -5,13 +5,15 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.message.MessageUtils;
 import edu.java.bot.model.TrackingUser;
 import edu.java.bot.repository.TrackingUserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class UntrackCommand extends AbstractCommand {
     private final static String COMMAND = "/untrack";
     private final static String DESCRIPTION = "Stop tracking";
-    private final static String MESSAGE = "Send me the URL of the resource you want to stop track";
+    private final static String MESSAGE = "Use a valid URL as a parameter in the form like '/track <url>'";
     private final TrackingUserRepository trackingUserRepository;
     private final MessageUtils messageUtils;
 
@@ -31,6 +33,7 @@ public class UntrackCommand extends AbstractCommand {
             trackingUser.untrack(url);
             return new SendMessage(chatId, "Successfully stop tracking");
         }
+        log.warn("invalid url was sent, untrack command");
         return new SendMessage(chatId, MESSAGE);
     }
 }

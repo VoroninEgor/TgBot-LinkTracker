@@ -68,7 +68,7 @@ class TrackCommandTest {
 
         TrackCommand trackCommand = new TrackCommand(trackingUserRepository, messageUtils);
 
-        assertEquals("Send me the URL of the resource you want to track"
+        assertEquals("Use a valid URL as a parameter in the form like '/track <url>'"
             , trackCommand.handle(update).getParameters().get("text"));
 
     }

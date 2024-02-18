@@ -6,13 +6,15 @@ import edu.java.bot.message.MessageUtils;
 import edu.java.bot.model.TrackingUser;
 import edu.java.bot.repository.TrackingUserRepository;
 import edu.java.bot.utill.URLChecker;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class TrackCommand extends AbstractCommand {
     private final static String COMMAND = "/track";
     private final static String DESCRIPTION = "Start tracking";
-    private final static String MESSAGE = "Send me the URL of the resource you want to track";
+    private final static String MESSAGE = "Use a valid URL as a parameter in the form like '/track <url>'";
     private final TrackingUserRepository trackingUserRepository;
     private final MessageUtils messageUtils;
 
@@ -31,6 +33,7 @@ public class TrackCommand extends AbstractCommand {
             trackingUser.track(url);
             return new SendMessage(chatId, "Successfully added!");
         }
+        log.warn("invalid url was sent, track command");
         return new SendMessage(chatId, MESSAGE);
     }
 }

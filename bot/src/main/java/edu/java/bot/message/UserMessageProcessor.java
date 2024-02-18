@@ -5,18 +5,15 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.command.AbstractCommand;
 import java.util.List;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class UserMessageProcessor {
     @Getter
     private final List<AbstractCommand> commands;
     private final MessageUtils messageUtils;
-
-    public UserMessageProcessor(List<AbstractCommand> commands, MessageUtils messageUtils) {
-        this.commands = commands;
-        this.messageUtils = messageUtils;
-    }
 
     public SendMessage process(Update update) {
         String text = update.message().text();

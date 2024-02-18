@@ -10,9 +10,9 @@ import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import edu.java.bot.command.AbstractCommand;
-import edu.java.bot.configuration.ApplicationConfig;
 import edu.java.bot.message.UserMessageProcessor;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -20,21 +20,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class Bot implements AutoCloseable, UpdatesListener, ExceptionHandler {
-    private final ApplicationConfig applicationConfig;
     private final UserMessageProcessor userMessageProcessor;
-    private TelegramBot bot;
-
-    public Bot(ApplicationConfig applicationConfig, UserMessageProcessor userMessageProcessor) {
-        this.applicationConfig = applicationConfig;
-        this.userMessageProcessor = userMessageProcessor;
-    }
+    private final TelegramBot bot;
 
     @EventListener(ApplicationReadyEvent.class)
     public void start() {
         log.info("The bot has started working...");
 
-        bot = new TelegramBot(applicationConfig.telegramToken());
         bot.setUpdatesListener(this, this);
 
         SetMyCommands setMyCommands = new SetMyCommands(
@@ -57,12 +51,12 @@ public class Bot implements AutoCloseable, UpdatesListener, ExceptionHandler {
     }
 
     @Override
-    public void close() {
-        bot.shutdown();
+    public void onException(TelegramException e) {
+        log.error("Telegram API exception", e);
     }
 
     @Override
-    public void onException(TelegramException e) {
-        log.error("Telegram API exception");
+    public void close() {
+        bot.shutdown();
     }
 }
