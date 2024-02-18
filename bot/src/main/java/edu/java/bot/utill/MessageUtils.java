@@ -1,4 +1,4 @@
-package edu.java.bot.message;
+package edu.java.bot.utill;
 
 import edu.java.bot.command.AbstractCommand;
 import edu.java.bot.model.TrackingLinks;

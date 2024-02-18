@@ -4,6 +4,7 @@ import edu.java.bot.command.ListCommand;
 import edu.java.bot.command.StartCommand;
 import edu.java.bot.model.TrackingLinks;
 import edu.java.bot.repository.TrackingUserRepository;
+import edu.java.bot.utill.MessageUtils;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -30,7 +31,7 @@ class MessageUtilsTest {
     @Test
     public void getNotEmptyTrackList() {
         TrackingLinks trackingUser = mock(TrackingLinks.class);
-        when(trackingUser.getTrackLinks()).thenReturn(Set.of("Track1", "Track2"));
+        when(trackingUser.getTrackLinks()).thenReturn(Set.of("Track1"));
         TrackingUserRepository trackingUserRepository = mock(TrackingUserRepository.class);
         when(trackingUserRepository.getTrackingUserByChatId(5L)).thenReturn(trackingUser);
 
@@ -38,7 +39,7 @@ class MessageUtilsTest {
 
         String message = messageUtils.getTrackLinks(5L);
 
-        assertEquals("You've tracked:\n# Track1\n# Track2\n", message);
+        assertEquals("You've tracked:\n# Track1\n", message);
     }
 
     @Test

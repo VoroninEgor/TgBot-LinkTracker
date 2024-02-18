@@ -4,68 +4,61 @@ import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.utill.URLChecker;
-import org.junit.jupiter.api.BeforeAll;
+import edu.java.bot.BotApplication;
+import edu.java.bot.model.TrackingLinks;
+import edu.java.bot.repository.TrackingUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-class TrackCommandTest {
+@SpringBootTest(classes = BotApplication.class)
+class UntrackCommandTest {
 
     @Autowired
-    TrackCommand trackCommand;
-
-    @BeforeAll
-    static void setUp() {
-        mockStatic(URLChecker.class);
-    }
+    UntrackCommand untrackCommand;
+    @Autowired
+    TrackingUserRepository repository;
 
     @Test
     void handleCorrectUrl() {
-
-        String validUrl = "http://github.com";
+        repository.addTrackingUser(2L);
+        TrackingLinks trackingLinks = repository.getTrackingUserByChatId(2L);
+        trackingLinks.track("http://github.com");
         String commandMessage = "/track http://github.com";
-        when(URLChecker.isValid(validUrl)).thenReturn(true);
 
         Update update = mock(Update.class);
         Chat chat = mock(Chat.class);
-        when(chat.id()).thenReturn(5L);
+        when(chat.id()).thenReturn(2L);
         Message message = mock(Message.class);
         when(message.text()).thenReturn(commandMessage);
         when(message.chat()).thenReturn(chat);
         when(update.message()).thenReturn(message);
 
-        SendMessage sendMessage = trackCommand.handle(update);
+        SendMessage sendMessage = untrackCommand.handle(update);
 
-        assertEquals("Successfully added!", sendMessage.getParameters().get("text"));
-        trackCommand.handle(update);
+        assertEquals("Successfully stop tracking", sendMessage.getParameters().get("text"));
     }
 
     @Test
     void handleIncorrectUrl() {
-        String invalidUrl = "http://github.com";
-        String commandMessage = "/track http://github.com";
-        when(URLChecker.isValid(invalidUrl)).thenReturn(false);
+        String commandMessage = "/track http://invalidurl";
 
         Update update = mock(Update.class);
         Chat chat = mock(Chat.class);
-        when(chat.id()).thenReturn(5L);
+        when(chat.id()).thenReturn(2L);
         Message message = mock(Message.class);
         when(message.text()).thenReturn(commandMessage);
         when(message.chat()).thenReturn(chat);
         when(update.message()).thenReturn(message);
 
-        SendMessage sendMessage = trackCommand.handle(update);
+        SendMessage sendMessage = untrackCommand.handle(update);
 
         assertEquals(
-            "Use a valid URL as a parameter in the form like '/track <url>'",
+            "Use a valid tracking URL as a parameter in the form like '/untrack <url>'",
             sendMessage.getParameters().get("text")
         );
-        trackCommand.handle(update);
     }
 }
