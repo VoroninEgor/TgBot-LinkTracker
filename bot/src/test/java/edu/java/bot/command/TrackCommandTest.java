@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.message.MessageUtils;
-import edu.java.bot.model.TrackingUser;
+import edu.java.bot.model.TrackingLinks;
 import edu.java.bot.repository.TrackingUserRepository;
 import edu.java.bot.utill.URLChecker;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,7 +24,7 @@ class TrackCommandTest {
     void handleCorrectUrl() {
         MessageUtils messageUtils = mock(MessageUtils.class);
         TrackingUserRepository trackingUserRepository = mock(TrackingUserRepository.class);
-        TrackingUser trackingUser = mock(TrackingUser.class);
+        TrackingLinks trackingUser = mock(TrackingLinks.class);
 
         String url = "Valid url";
 
@@ -51,7 +51,7 @@ class TrackCommandTest {
     void handleIncorrectUrl() {
         MessageUtils messageUtils = mock(MessageUtils.class);
         TrackingUserRepository trackingUserRepository = mock(TrackingUserRepository.class);
-        TrackingUser trackingUser = mock(TrackingUser.class);
+        TrackingLinks trackingUser = mock(TrackingLinks.class);
         String url = "Valid url";
 
         when(trackingUserRepository.getTrackingUserByChatId(5L)).thenReturn(trackingUser);

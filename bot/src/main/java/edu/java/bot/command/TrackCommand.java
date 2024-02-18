@@ -3,7 +3,7 @@ package edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.message.MessageUtils;
-import edu.java.bot.model.TrackingUser;
+import edu.java.bot.model.TrackingLinks;
 import edu.java.bot.repository.TrackingUserRepository;
 import edu.java.bot.utill.URLChecker;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class TrackCommand extends AbstractCommand {
     @Override
     public SendMessage handle(Update update) {
         Long chatId = update.message().chat().id();
-        TrackingUser trackingUser = trackingUserRepository.getTrackingUserByChatId(chatId);
+        TrackingLinks trackingUser = trackingUserRepository.getTrackingUserByChatId(chatId);
         String url = messageUtils.parseUrlFromText(update.message().text());
         if (URLChecker.isValid(url)) {
             trackingUser.track(url);

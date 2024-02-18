@@ -1,9 +1,10 @@
 package edu.java.bot.message;
 
 import edu.java.bot.command.AbstractCommand;
-import edu.java.bot.model.TrackingUser;
+import edu.java.bot.model.TrackingLinks;
 import edu.java.bot.repository.TrackingUserRepository;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,9 +22,9 @@ public class MessageUtils {
             .collect(Collectors.joining("\n"));
     }
 
-    public String getTrackList(Long chatId) {
-        TrackingUser trackingUser = trackingUserRepository.getTrackingUserByChatId(chatId);
-        List<String> trackList = trackingUser.getTrackList();
+    public String getTrackLinks(Long chatId) {
+        TrackingLinks trackingLinks = trackingUserRepository.getTrackingUserByChatId(chatId);
+        Set<String> trackList = trackingLinks.getTrackLinks();
         StringBuilder message = new StringBuilder();
         if (trackList.isEmpty()) {
             message.append("You don't have tracking resources, use /track");

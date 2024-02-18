@@ -14,7 +14,7 @@ class ListCommandTest {
     @Test
     public void handleEmptyTrackList() {
         MessageUtils messageUtils = mock(MessageUtils.class);
-        when(messageUtils.getTrackList(5L)).thenReturn("You don't have tracking resources, use /track");
+        when(messageUtils.getTrackLinks(5L)).thenReturn("You don't have tracking resources, use /track");
 
         Update update = mock(Update.class);
         Chat chat = mock(Chat.class);
@@ -32,7 +32,7 @@ class ListCommandTest {
     @Test
     public void handleNotEmptyTrackList() {
         MessageUtils messageUtils = mock(MessageUtils.class);
-        when(messageUtils.getTrackList(5L)).thenReturn("You've tracked:\n# Track1\n# Track2\n");
+        when(messageUtils.getTrackLinks(5L)).thenReturn("You've tracked:\n# Track1\n# Track2\n");
 
         Update update = mock(Update.class);
         Chat chat = mock(Chat.class);

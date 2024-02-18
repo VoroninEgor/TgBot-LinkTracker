@@ -3,7 +3,7 @@ package edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.message.MessageUtils;
-import edu.java.bot.model.TrackingUser;
+import edu.java.bot.model.TrackingLinks;
 import edu.java.bot.repository.TrackingUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,11 +25,11 @@ public class UntrackCommand extends AbstractCommand {
 
     @Override
     public SendMessage handle(Update update) {
-        TrackingUser trackingUser = trackingUserRepository.getTrackingUserByChatId(update.message().chat().id());
+        TrackingLinks trackingUser = trackingUserRepository.getTrackingUserByChatId(update.message().chat().id());
         Long chatId = update.message().chat().id();
 
         String url = messageUtils.parseUrlFromText(update.message().text());
-        if (trackingUser.getTrackList().contains(url)) {
+        if (trackingUser.getTrackLinks().contains(url)) {
             trackingUser.untrack(url);
             return new SendMessage(chatId, "Successfully stop tracking");
         }

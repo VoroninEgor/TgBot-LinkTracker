@@ -1,15 +1,15 @@
 package edu.java.bot.repository;
 
-import edu.java.bot.model.TrackingUser;
+import edu.java.bot.model.TrackingLinks;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class TrackingUserRepository {
-    private final Map<Long, TrackingUser> chats = new HashMap<>();
+    private final Map<Long, TrackingLinks> chats = new HashMap<>();
 
-    public TrackingUser getTrackingUserByChatId(Long chatId) {
+    public TrackingLinks getTrackingUserByChatId(Long chatId) {
         if (!chats.containsKey(chatId)) {
             addTrackingUser(chatId);
         }
@@ -18,8 +18,8 @@ public class TrackingUserRepository {
 
     public void addTrackingUser(Long chatId) {
         if (!chats.containsKey(chatId)) {
-            TrackingUser newTrackingUser = new TrackingUser(chatId);
-            chats.put(chatId, newTrackingUser);
+            TrackingLinks newTrackingLinks = new TrackingLinks();
+            chats.put(chatId, newTrackingLinks);
         }
     }
 }
