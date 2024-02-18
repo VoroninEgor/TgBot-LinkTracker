@@ -3,7 +3,7 @@ package edu.java.bot.message;
 import edu.java.bot.command.ListCommand;
 import edu.java.bot.command.StartCommand;
 import edu.java.bot.model.TrackingLinks;
-import edu.java.bot.repository.TrackingUserRepository;
+import edu.java.bot.repository.TrackingLinksRepository;
 import edu.java.bot.utill.MessageUtils;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,12 +16,12 @@ class MessageUtilsTest {
 
     @Test
     public void getEmptyTrackList() {
-        TrackingLinks trackingUser = mock(TrackingLinks.class);
-        when(trackingUser.getTrackLinks()).thenReturn(Set.of());
-        TrackingUserRepository trackingUserRepository = mock(TrackingUserRepository.class);
-        when(trackingUserRepository.getTrackingUserByChatId(5L)).thenReturn(trackingUser);
+        TrackingLinks trackingLinks = mock(TrackingLinks.class);
+        when(trackingLinks.getTrackLinks()).thenReturn(Set.of());
+        TrackingLinksRepository trackingLinksRepository = mock(TrackingLinksRepository.class);
+        when(trackingLinksRepository.getTrackingLinksByChatId(5L)).thenReturn(trackingLinks);
 
-        MessageUtils messageUtils = new MessageUtils(trackingUserRepository);
+        MessageUtils messageUtils = new MessageUtils(trackingLinksRepository);
 
         String message = messageUtils.getTrackLinks(5L);
 
@@ -30,12 +30,12 @@ class MessageUtilsTest {
 
     @Test
     public void getNotEmptyTrackList() {
-        TrackingLinks trackingUser = mock(TrackingLinks.class);
-        when(trackingUser.getTrackLinks()).thenReturn(Set.of("Track1"));
-        TrackingUserRepository trackingUserRepository = mock(TrackingUserRepository.class);
-        when(trackingUserRepository.getTrackingUserByChatId(5L)).thenReturn(trackingUser);
+        TrackingLinks trackingLinks = mock(TrackingLinks.class);
+        when(trackingLinks.getTrackLinks()).thenReturn(Set.of("Track1"));
+        TrackingLinksRepository trackingLinksRepository = mock(TrackingLinksRepository.class);
+        when(trackingLinksRepository.getTrackingLinksByChatId(5L)).thenReturn(trackingLinks);
 
-        MessageUtils messageUtils = new MessageUtils(trackingUserRepository);
+        MessageUtils messageUtils = new MessageUtils(trackingLinksRepository);
 
         String message = messageUtils.getTrackLinks(5L);
 
@@ -45,12 +45,12 @@ class MessageUtilsTest {
     @Test
     public void getCommandsDescription() {
         MessageUtils mockMessageUtils = mock(MessageUtils.class);
-        TrackingUserRepository trackingUserRepository = mock(TrackingUserRepository.class);
+        TrackingLinksRepository trackingLinksRepository = mock(TrackingLinksRepository.class);
 
         StartCommand startCommand = new StartCommand();
         ListCommand listCommand = new ListCommand(mockMessageUtils);
 
-        MessageUtils messageUtils = new MessageUtils(trackingUserRepository);
+        MessageUtils messageUtils = new MessageUtils(trackingLinksRepository);
 
         assertEquals(
             "Available commands:\n/list | Write tracking resources\n/list | Write tracking resources"

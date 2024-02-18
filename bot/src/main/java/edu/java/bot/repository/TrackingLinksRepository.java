@@ -6,17 +6,17 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TrackingUserRepository {
+public class TrackingLinksRepository {
     private final Map<Long, TrackingLinks> chats = new HashMap<>();
 
-    public TrackingLinks getTrackingUserByChatId(Long chatId) {
+    public TrackingLinks getTrackingLinksByChatId(Long chatId) {
         if (!chats.containsKey(chatId)) {
-            addTrackingUser(chatId);
+            addTrackingLinks(chatId);
         }
         return chats.get(chatId);
     }
 
-    public void addTrackingUser(Long chatId) {
+    public void addTrackingLinks(Long chatId) {
         if (!chats.containsKey(chatId)) {
             TrackingLinks newTrackingLinks = new TrackingLinks();
             chats.put(chatId, newTrackingLinks);

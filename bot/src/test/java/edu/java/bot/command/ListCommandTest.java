@@ -6,7 +6,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.BotApplication;
 import edu.java.bot.model.TrackingLinks;
-import edu.java.bot.repository.TrackingUserRepository;
+import edu.java.bot.repository.TrackingLinksRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ class ListCommandTest {
     @Autowired
     ListCommand listCommand;
     @Autowired
-    TrackingUserRepository repository;
+    TrackingLinksRepository repository;
 
     @BeforeEach
     void setUp() {
-        repository.addTrackingUser(1L);
-        repository.addTrackingUser(2L);
-        TrackingLinks withNotEmptyTrackLinks = repository.getTrackingUserByChatId(2L);
+        repository.addTrackingLinks(1L);
+        repository.addTrackingLinks(2L);
+        TrackingLinks withNotEmptyTrackLinks = repository.getTrackingLinksByChatId(2L);
         withNotEmptyTrackLinks.track("http://github.com");
         withNotEmptyTrackLinks.track("http://stackoverflow.com");
     }

@@ -6,7 +6,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.BotApplication;
 import edu.java.bot.model.TrackingLinks;
-import edu.java.bot.repository.TrackingUserRepository;
+import edu.java.bot.repository.TrackingLinksRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,12 +20,12 @@ class UntrackCommandTest {
     @Autowired
     UntrackCommand untrackCommand;
     @Autowired
-    TrackingUserRepository repository;
+    TrackingLinksRepository repository;
 
     @Test
     void handleCorrectUrl() {
-        repository.addTrackingUser(2L);
-        TrackingLinks trackingLinks = repository.getTrackingUserByChatId(2L);
+        repository.addTrackingLinks(2L);
+        TrackingLinks trackingLinks = repository.getTrackingLinksByChatId(2L);
         trackingLinks.track("http://github.com");
         String commandMessage = "/track http://github.com";
 

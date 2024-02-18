@@ -2,7 +2,7 @@ package edu.java.bot.utill;
 
 import edu.java.bot.command.AbstractCommand;
 import edu.java.bot.model.TrackingLinks;
-import edu.java.bot.repository.TrackingUserRepository;
+import edu.java.bot.repository.TrackingLinksRepository;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class MessageUtils {
-    private final TrackingUserRepository trackingUserRepository;
+    private final TrackingLinksRepository trackingLinksRepository;
 
     public String getCommandsDescription(List<AbstractCommand> commands) {
         return "Available commands:\n"
@@ -23,7 +23,7 @@ public class MessageUtils {
     }
 
     public String getTrackLinks(Long chatId) {
-        TrackingLinks trackingLinks = trackingUserRepository.getTrackingUserByChatId(chatId);
+        TrackingLinks trackingLinks = trackingLinksRepository.getTrackingLinksByChatId(chatId);
         Set<String> trackList = trackingLinks.getTrackLinks();
         StringBuilder message = new StringBuilder();
         if (trackList.isEmpty()) {
