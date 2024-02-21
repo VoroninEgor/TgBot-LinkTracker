@@ -15,5 +15,4 @@ public class TrackingLinks {
     public void untrack(String url) {
         trackLinks.remove(url);
     }
-
 }
