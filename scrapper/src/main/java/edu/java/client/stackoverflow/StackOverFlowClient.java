@@ -1,7 +1,7 @@
 package edu.java.client.stackoverflow;
 
-import edu.java.dto.QuestionItem;
+import edu.java.dto.QuestionResponse;
 
 public interface StackOverFlowClient {
-    QuestionItem fetchQuestion(Long id);
+    QuestionResponse fetchQuestion(Long id);
 }

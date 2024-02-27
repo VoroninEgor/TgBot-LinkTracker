@@ -1,12 +1,13 @@
 package edu.java.client.stackoverflow;
 
-import edu.java.dto.QuestionItem;
+import edu.java.dto.QuestionResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.reactive.function.client.WebClient;
+import static java.lang.String.format;
 
 @Slf4j
 public class StackOverFlowClientImpl implements StackOverFlowClient {
-    private final static String BASEURL = "https://api.stackexchange.com/questions/";
+    private final static String BASEURL = "https://api.stackexchange.com/";
     private final WebClient webClient;
 
     public StackOverFlowClientImpl(String baseUrl) {
@@ -18,15 +19,15 @@ public class StackOverFlowClientImpl implements StackOverFlowClient {
     }
 
     @Override
-    public QuestionItem fetchQuestion(Long id) {
+    public QuestionResponse fetchQuestion(Long id) {
         return webClient
             .get()
             .uri(uriBuilder -> uriBuilder
-                .path(Long.toString(id))
+                .path(format("questions/%s", id))
                 .queryParam("site", "stackoverflow.com")
                 .build())
             .retrieve()
-            .bodyToMono(QuestionItem.class)
+            .bodyToMono(QuestionResponse.class)
             .block();
     }
 }
