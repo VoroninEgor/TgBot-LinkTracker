@@ -1,6 +1,7 @@
 package edu.java.client.github;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import edu.java.client.AbstractTest;
 import edu.java.dto.RepoResponse;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @WireMockTest(httpPort = 8080)
-class GitHubClientImplTest {
+class GitHubClientImplTest extends AbstractTest {
 
     String baseUrl;
     GitHubClientImpl gitHubClient;
@@ -25,9 +26,9 @@ class GitHubClientImplTest {
         gitHubClient = new GitHubClientImpl(baseUrl);
         owner = "owner";
         repo = "repo";
-        String bodyJson = getBodyJsonWithUpdateAt();
+        String bodyJson = jsonToString("src/test/resources/github.json");
 
-        stubFor(get(format("/%s/%s", owner, repo)).willReturn(aResponse()
+        stubFor(get(format("/repos/%s/%s", owner, repo)).willReturn(aResponse()
             .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(bodyJson)));
@@ -38,17 +39,5 @@ class GitHubClientImplTest {
         RepoResponse repoResponse = gitHubClient.fetchRepo(owner, repo);
 
         assertEquals(OffsetDateTime.parse("2024-02-02T15:17:25Z"), repoResponse.updatedAt());
-    }
-
-    String getBodyJsonWithUpdateAt() {
-        return """
-            {
-                "id": 751897954,
-                "owner": {
-                    "id": 115171441
-                },
-                "updated_at": "2024-02-02T15:17:25Z"
-            }
-                    """;
     }
 }
