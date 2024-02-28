@@ -18,6 +18,7 @@ public class LinkService {
     }
 
     public LinkResponse addLink(Long tgChatId, AddLinkRequest addLinkRequest) {
+        //        throw new LinkAlreadyAddedException(); //TODO
         return null;
     }
 }
