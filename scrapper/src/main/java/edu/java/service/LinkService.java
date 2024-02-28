@@ -1,10 +1,11 @@
 package edu.java.service;
 
+import edu.java.dto.AddLinkRequest;
+import edu.java.dto.LinkResponse;
+import edu.java.dto.ListLinksResponse;
+import edu.java.dto.RemoveLinkRequest;
 import org.springframework.stereotype.Service;
-import ru.tinkoff.notes.model.AddLinkRequest;
-import ru.tinkoff.notes.model.LinkResponse;
-import ru.tinkoff.notes.model.ListLinksResponse;
-import ru.tinkoff.notes.model.RemoveLinkRequest;
+
 
 @Service
 public class LinkService {
