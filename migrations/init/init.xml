@@ -1,0 +1,50 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="create_tgchats_table" author="Egor Voronin">
+        <sql>
+            CREATE TABLE tgchats (
+                id bigserial PRIMARY KEY,
+                created_at timestamp NOT NULL
+            );
+        </sql>
+        <rollback>
+            <sql>
+                DROP TABLE IF EXISTS tgchats;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="create_links_table" author="Egor Voronin">
+        <sql>
+            CREATE TABLE links (
+                id bigserial PRIMARY KEY,
+                url text UNIQUE NOT NULL,
+                updated_at timestamp NOT NULL
+            );
+        </sql>
+        <rollback>
+            <sql>
+                DROP TABLE IF EXISTS links
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="create_tgchat_links_table" author="Egor Voronin">
+        <sql>
+            CREATE TABLE tgchat_links (
+                tgchats_id bigint REFERENCES tgchats(id) ON DELETE CASCADE,
+                links_id bigint REFERENCES links(id) ON DELETE CASCADE,
+                CONSTRAINT tgchat_links_pk PRIMARY KEY (tgchats_id, links_id)
+            );
+        </sql>
+        <rollback>
+            <sql>
+                DROP TABLE IF EXISTS tgchat_links
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

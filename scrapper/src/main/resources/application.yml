@@ -13,11 +13,9 @@ spring:
     username: postgres
     password: postgres
   liquibase:
-    change-log: ../../../../migrations/master.xml
-    enabled: true
+    enabled: false
 
 server:
-
   port: 8080
 
 logging:
