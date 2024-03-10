@@ -1,12 +1,12 @@
 package edu.java.bot.client;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
     private final static String BASEURL = "http://localhost:8080/";
-    private final WebClient webClient;
     private final static String BASE_ENDPOINT_WITH_PATH_VAR = "/tg-chat/{id}";
+
+    private final WebClient webClient;
 
     public ScrapperTgChatClientImpl() {
         webClient = WebClient.create(BASEURL);
@@ -17,20 +17,20 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
     }
 
     @Override
-    public ResponseEntity<Void> tgChatIdDelete(Long id) {
-        return webClient.delete()
+    public void tgChatIdDelete(Long id) {
+        webClient.delete()
             .uri(BASE_ENDPOINT_WITH_PATH_VAR, id)
             .retrieve()
-            .toEntity(Void.class)
+            .toBodilessEntity()
             .block();
     }
 
     @Override
-    public ResponseEntity<Void> tgChatIdPost(Long id) {
-        return webClient.post()
+    public void tgChatIdPost(Long id) {
+        webClient.post()
             .uri(BASE_ENDPOINT_WITH_PATH_VAR, id)
             .retrieve()
-            .toEntity(Void.class)
+            .toBodilessEntity()
             .block();
     }
 }

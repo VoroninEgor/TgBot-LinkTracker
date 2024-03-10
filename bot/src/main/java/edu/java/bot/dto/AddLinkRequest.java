@@ -5,6 +5,6 @@ import java.net.URI;
 
 public record AddLinkRequest(
     @NotNull
-    URI link
+    URI url
 ) {
 }

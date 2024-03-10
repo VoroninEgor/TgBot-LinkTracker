@@ -5,14 +5,14 @@ import edu.java.bot.dto.LinkResponse;
 import edu.java.bot.dto.ListLinksResponse;
 import edu.java.bot.dto.RemoveLinkRequest;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class ScrapperLinkClientImpl implements ScrapperLinkClient {
     private final static String BASEURL = "http://localhost:8080/";
-    private final WebClient webClient;
     private final static String BASE_ENDPOINT = "/links";
     private final static String TGCHAT_ID_HEADER = "Tg-Chat-Id";
+
+    private final WebClient webClient;
 
     public ScrapperLinkClientImpl() {
         webClient = WebClient.create(BASEURL);
@@ -23,34 +23,34 @@ public class ScrapperLinkClientImpl implements ScrapperLinkClient {
     }
 
     @Override
-    public ResponseEntity<LinkResponse> linksDelete(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
+    public LinkResponse linksDelete(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
         return webClient.method(HttpMethod.DELETE)
             .uri(BASE_ENDPOINT)
             .header(TGCHAT_ID_HEADER, tgChatId.toString())
             .bodyValue(removeLinkRequest)
             .retrieve()
-            .toEntity(LinkResponse.class)
+            .bodyToMono(LinkResponse.class)
             .block();
     }
 
     @Override
-    public ResponseEntity<ListLinksResponse> linksGet(Long tgChatId) {
+    public ListLinksResponse linksGet(Long tgChatId) {
         return webClient.get()
             .uri(BASE_ENDPOINT)
             .header(TGCHAT_ID_HEADER, tgChatId.toString())
             .retrieve()
-            .toEntity(ListLinksResponse.class)
+            .bodyToMono(ListLinksResponse.class)
             .block();
     }
 
     @Override
-    public ResponseEntity<LinkResponse> linksPost(Long tgChatId, AddLinkRequest addLinkRequest) {
+    public LinkResponse linksPost(Long tgChatId, AddLinkRequest addLinkRequest) {
         return webClient.post()
             .uri(BASE_ENDPOINT)
             .header(TGCHAT_ID_HEADER, tgChatId.toString())
             .bodyValue(addLinkRequest)
             .retrieve()
-            .toEntity(LinkResponse.class)
+            .bodyToMono(LinkResponse.class)
             .block();
     }
 }

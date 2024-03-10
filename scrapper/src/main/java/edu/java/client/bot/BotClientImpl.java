@@ -1,7 +1,6 @@
 package edu.java.client.bot;
 
 import edu.java.dto.LinkUpdateRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class BotClientImpl implements BotClient {
@@ -17,12 +16,12 @@ public class BotClientImpl implements BotClient {
     }
 
     @Override
-    public ResponseEntity<Void> updatesPost(LinkUpdateRequest linkUpdate) {
-        return webClient.post()
+    public void updatesPost(LinkUpdateRequest linkUpdate) {
+        webClient.post()
             .uri("/updates")
             .bodyValue(linkUpdate)
             .retrieve()
-            .toEntity(Void.class)
+            .toBodilessEntity()
             .block();
     }
 }
