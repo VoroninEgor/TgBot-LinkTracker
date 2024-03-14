@@ -1,0 +1,6 @@
+{
+    "id": 1,
+    "url": "http://bot.com",
+    "description": "desc",
+    "tgChatIds": [1, 2]
+}
