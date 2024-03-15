@@ -4,9 +4,11 @@ import edu.java.bot.dto.AddLinkRequest;
 import edu.java.bot.dto.LinkResponse;
 import edu.java.bot.dto.ListLinksResponse;
 import edu.java.bot.dto.RemoveLinkRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Slf4j
 public class ScrapperLinkClientImpl implements ScrapperLinkClient {
     private final static String BASEURL = "http://localhost:8080/";
     private final static String BASE_ENDPOINT = "/links";
@@ -45,6 +47,7 @@ public class ScrapperLinkClientImpl implements ScrapperLinkClient {
 
     @Override
     public LinkResponse linksPost(Long tgChatId, AddLinkRequest addLinkRequest) {
+        log.info("Post link: {} to tgChat: {}", addLinkRequest, tgChatId);
         return webClient.post()
             .uri(BASE_ENDPOINT)
             .header(TGCHAT_ID_HEADER, tgChatId.toString())

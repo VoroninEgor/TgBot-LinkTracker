@@ -13,6 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +25,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class JdbcLinkService implements LinkService {
     private final JdbcLinkDao linkRepository;
     private final JdbcTgChatLinksDao chatLinksRepository;
-    private final JdbcTgChatService tgChatService;
 
     @Transactional
     @Override
     public LinkResponse removeLink(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
         URI url = removeLinkRequest.link();
-        Long linkId = linkRepository.findIdByUrl(url);
-        chatLinksRepository.remove(tgChatId, linkId);
+        Long linkId = null;
+        try {
+            linkId = linkRepository.findIdByUrl(url);
+            chatLinksRepository.remove(tgChatId, linkId);
+        } catch (EmptyResultDataAccessException e) {
+            log.warn("Link {} does not exist to delete", url);
+        }
         return LinkResponse.builder()
             .id(linkId)
             .url(url)
@@ -57,7 +62,11 @@ public class JdbcLinkService implements LinkService {
         if (linkId == null) {
             linkId = linkRepository.save(url.toString());
         }
-        chatLinksRepository.save(tgChatId, linkId);
+        try {
+            chatLinksRepository.save(tgChatId, linkId);
+        } catch (DuplicateKeyException e) {
+            log.warn("Link was added already");
+        }
 
         return LinkResponse.builder()
             .id(linkId)
