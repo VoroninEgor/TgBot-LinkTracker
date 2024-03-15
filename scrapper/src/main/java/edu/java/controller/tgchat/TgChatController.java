@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/tg-chat")
 public class TgChatController {
 
-    private final TgChatService tgChatService;
+    private final TgChatService jdbcTgChatService;
 
     @Operation(operationId = "tgChatIdDelete", summary = "Удалить чат")
     @ApiResponse(responseCode = "200", description = "Чат успешно добавлен")
@@ -33,7 +33,7 @@ public class TgChatController {
     @DeleteMapping("/{id}")
     public void tgChatIdDelete(@PathVariable("id") Long id) {
         log.info("/tg-chat/{id} DELETE endpoint");
-        tgChatService.removeById(id);
+        jdbcTgChatService.remove(id);
     }
 
     @Operation(operationId = "tgChatIdPost", summary = "Зарегистрировать чат")
@@ -43,6 +43,6 @@ public class TgChatController {
     @PostMapping("/{id}")
     public void tgChatIdPost(@PathVariable("id") Long id) {
         log.info("/tg-chat/{id} POST endpoint");
-        tgChatService.save(id);
+        jdbcTgChatService.save(id);
     }
 }
