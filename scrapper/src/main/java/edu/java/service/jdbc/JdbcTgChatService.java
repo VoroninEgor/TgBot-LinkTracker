@@ -1,6 +1,7 @@
 package edu.java.service.jdbc;
 
 import edu.java.dao.JdbcTgChatDao;
+import edu.java.dto.tgchatlinks.TgChatResponse;
 import edu.java.service.TgChatService;
 import java.net.URI;
 import java.util.List;
@@ -32,5 +33,10 @@ public class JdbcTgChatService implements TgChatService {
     @Override
     public List<Long> fetchTgChatsIdByLink(URI link) {
         return tgChatRepository.fetchTgChatsIdByLink(link.toString());
+    }
+
+    @Override
+    public TgChatResponse fetchById(Long id) {
+        return tgChatRepository.fetchById(id);
     }
 }

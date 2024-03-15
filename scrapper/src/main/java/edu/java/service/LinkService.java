@@ -19,4 +19,6 @@ public interface LinkService {
     List<LinkUpdateResponse> findLinksToCheckForUpdates(Long forceCheckDelay);
 
     void updateLink(URI link, OffsetDateTime updatedAt);
+
+    void remove(URI link);
 }

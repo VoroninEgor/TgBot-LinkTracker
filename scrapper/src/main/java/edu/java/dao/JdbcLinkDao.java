@@ -33,7 +33,7 @@ public class JdbcLinkDao {
             return ps;
         }, keyHolder);
 
-        return keyHolder.getKey().longValue();
+        return (Long) keyHolder.getKeys().get("id");
     }
 
     public void remove(String link) {

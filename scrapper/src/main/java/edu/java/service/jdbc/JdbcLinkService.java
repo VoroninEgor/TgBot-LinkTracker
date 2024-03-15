@@ -13,6 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class JdbcLinkService implements LinkService {
     private final JdbcLinkDao linkRepository;
     private final JdbcTgChatLinksDao chatLinksRepository;
+    private final JdbcTgChatService tgChatService;
 
     @Transactional
     @Override
@@ -46,7 +48,12 @@ public class JdbcLinkService implements LinkService {
     @Override
     public LinkResponse addLink(Long tgChatId, AddLinkRequest addLinkRequest) {
         URI url = addLinkRequest.link();
-        Long linkId = linkRepository.findIdByUrl(url);
+        Long linkId = null;
+        try {
+            linkId = linkRepository.findIdByUrl(url);
+        } catch (EmptyResultDataAccessException e) {
+            log.warn("Link {} was not added yet", url);
+        }
         if (linkId == null) {
             linkId = linkRepository.save(url.toString());
         }
@@ -67,7 +74,13 @@ public class JdbcLinkService implements LinkService {
     @Transactional
     @Override
     public void updateLink(URI link, OffsetDateTime updatedAt) {
-        log.info("Update link " + link);
+        log.info("Update link " + link + "with new updatedAt: " + updatedAt);
         linkRepository.update(link.toString(), updatedAt);
+    }
+
+    @Transactional
+    @Override
+    public void remove(URI link) {
+        linkRepository.remove(link.toString());
     }
 }
