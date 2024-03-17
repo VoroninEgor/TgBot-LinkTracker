@@ -16,7 +16,7 @@ public class UrlParser {
         return url.substring(startIndex);
     }
 
-    public String fetchUserNameFromGitHubLink(String url) {
+    @SuppressWarnings("checkstyle:MagicNumber") public String fetchUserNameFromGitHubLink(String url) {
         if (!url.matches(GITHUBLINK)) {
             throw new UrlParseException();
         }
@@ -26,7 +26,7 @@ public class UrlParser {
         return url.substring(startIndex, endIndex);
     }
 
-    public Long fetchQuestionIdFromStackOverFlowLink(String url) {
+    @SuppressWarnings("checkstyle:MagicNumber") public Long fetchQuestionIdFromStackOverFlowLink(String url) {
         if (!url.matches(STACKOVERFLOWLINK)) {
             throw new UrlParseException();
         }

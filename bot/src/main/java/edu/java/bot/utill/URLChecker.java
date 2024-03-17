@@ -13,7 +13,7 @@ public class URLChecker {
     private static final String GITHUBLINK = "^https://github\\.com/[^/]+/[^/]+.*$";
     private static final String STACKOVERFLOWLINK = "^https://stackoverflow\\.com/questions/\\d+/.*$";
 
-    public static boolean isValid(String url) {
+    @SuppressWarnings("checkstyle:MagicNumber") public static boolean isValid(String url) {
         if (!url.matches(GITHUBLINK) && !url.matches(STACKOVERFLOWLINK)) {
             return false;
         }

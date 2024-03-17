@@ -49,6 +49,7 @@ public class JdbcLinkDao {
         return jdbcTemplate.queryForObject("SELECT id from links WHERE url = ?", Long.class, link);
     }
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     public List<LinkUpdateResponse> findLinksToCheckForUpdates(Long forceCheckDelay) {
         Long forceCheckInSec = forceCheckDelay * 60;
         String sql = "SELECT * FROM links WHERE EXTRACT(EPOCH FROM (now() - links.last_check)) > ?";
@@ -57,6 +58,7 @@ public class JdbcLinkDao {
 
     public void update(String link, OffsetDateTime updatedAt) {
         jdbcTemplate.update("UPDATE links SET updated_at=?, last_check=CURRENT_TIMESTAMP WHERE url=?",
-            updatedAt, link);
+            updatedAt, link
+        );
     }
 }
