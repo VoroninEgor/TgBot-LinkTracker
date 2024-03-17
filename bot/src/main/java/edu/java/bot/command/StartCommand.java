@@ -24,7 +24,11 @@ public class StartCommand extends AbstractCommand {
     public SendMessage handle(Update update) {
         log.info("StartCommand handling...");
         Long tgChatId = update.message().chat().id();
-        scrapperTgChatClient.tgChatIdPost(tgChatId);
+        try {
+            scrapperTgChatClient.tgChatIdPost(tgChatId);
+        } catch (Exception e) {
+            log.warn("Chat already been registered");
+        }
         return new SendMessage(tgChatId, MESSAGE);
     }
 }

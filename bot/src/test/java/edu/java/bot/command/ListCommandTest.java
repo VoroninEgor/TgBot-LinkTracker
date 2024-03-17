@@ -2,31 +2,29 @@ package edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.model.TrackingLinks;
-import edu.java.bot.repository.TrackingLinksRepository;
+import edu.java.bot.utill.MessageUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListCommandTest extends AbstractCommandTest {
 
-    @Autowired
     ListCommand listCommand;
-    @Autowired
-    TrackingLinksRepository repository;
+    MessageUtils messageUtils;
 
     @BeforeEach
     void setUp() {
-        repository.addTrackingLinks(1L);
-        repository.addTrackingLinks(2L);
-        TrackingLinks withNotEmptyTrackLinks = repository.getTrackingLinksByChatId(2L);
-        withNotEmptyTrackLinks.track("http://github.com");
-        withNotEmptyTrackLinks.track("http://stackoverflow.com");
+        messageUtils = mock(MessageUtils.class);
+        listCommand = new ListCommand(messageUtils);
     }
 
     @Test
     public void handleEmptyTrackList() {
+        when(messageUtils.getTrackLinks(any()))
+            .thenReturn("You don't have tracking resources, use /track");
         Update update = getMockUpdate(1L, "text");
 
         SendMessage sendMessage = listCommand.handle(update);
@@ -37,6 +35,9 @@ class ListCommandTest extends AbstractCommandTest {
 
     @Test
     public void handleNotEmptyTrackList() {
+        when(messageUtils.getTrackLinks(any()))
+            .thenReturn("You've tracked:\n# http://github.com\n# http://stackoverflow.com\n");
+
         Update update = getMockUpdate(2L, "text");
 
         SendMessage sendMessage = listCommand.handle(update);

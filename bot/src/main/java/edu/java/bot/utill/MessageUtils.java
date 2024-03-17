@@ -29,7 +29,7 @@ public class MessageUtils {
         } else {
             message.append("You've tracked:\n");
             for (LinkResponse linkResponse : trackingLinks) {
-                String link = linkResponse.url().toString();
+                String link = linkResponse.link().toString();
                 message.append("# ").append(link).append("\n");
             }
         }

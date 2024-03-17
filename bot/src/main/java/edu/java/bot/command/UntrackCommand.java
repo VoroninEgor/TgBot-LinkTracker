@@ -3,7 +3,6 @@ package edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.client.ScrapperLinkClient;
-import edu.java.bot.client.ScrapperTgChatClient;
 import edu.java.bot.dto.LinkResponse;
 import edu.java.bot.dto.RemoveLinkRequest;
 import edu.java.bot.utill.MessageUtils;
@@ -23,7 +22,6 @@ public class UntrackCommand extends AbstractCommand {
 
     public UntrackCommand(
         MessageUtils messageUtils,
-        ScrapperTgChatClient scrapperTgChatClient,
         ScrapperLinkClient scrapperLinkClient
     ) {
         super(COMMAND, DESCRIPTION);

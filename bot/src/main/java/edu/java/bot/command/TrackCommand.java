@@ -16,7 +16,7 @@ public class TrackCommand extends AbstractCommand {
     private final static String COMMAND = "/track";
     private final static String DESCRIPTION = "Start tracking";
 
-    private final static String MESSAGE = "Use a valid URL as a parameter in the form like '/track <link>'";
+    private final static String TRACK_ERROR_MESSAGE = "Use a valid URL as a parameter in the form like '/track <link>'";
     private final MessageUtils messageUtils;
     private final ScrapperLinkClient scrapperLinkClient;
 
@@ -36,6 +36,6 @@ public class TrackCommand extends AbstractCommand {
             return new SendMessage(chatId, "Successfully added!");
         }
         log.warn("invalid link was sent, track command");
-        return new SendMessage(chatId, MESSAGE);
+        return new SendMessage(chatId, TRACK_ERROR_MESSAGE);
     }
 }

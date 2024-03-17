@@ -1,7 +1,12 @@
 package edu.java.bot.client;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
+@Slf4j
 public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
     private final static String BASEURL = "http://localhost:8080/";
     private final static String BASE_ENDPOINT_WITH_PATH_VAR = "/tg-chat/{id}";
@@ -21,6 +26,7 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
         webClient.delete()
             .uri(BASE_ENDPOINT_WITH_PATH_VAR, id)
             .retrieve()
+            .onStatus(HttpStatusCode::isError, this::handleError)
             .toBodilessEntity()
             .block();
     }
@@ -30,7 +36,12 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
         webClient.post()
             .uri(BASE_ENDPOINT_WITH_PATH_VAR, id)
             .retrieve()
+            .onStatus(HttpStatusCode::isError, this::handleError)
             .toBodilessEntity()
             .block();
+    }
+
+    private Mono<? extends Throwable> handleError(ClientResponse response) {
+        return Mono.error(Exception::new);
     }
 }
