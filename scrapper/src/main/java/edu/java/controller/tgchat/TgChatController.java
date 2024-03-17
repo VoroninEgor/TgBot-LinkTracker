@@ -40,6 +40,8 @@ public class TgChatController {
     @ApiResponse(responseCode = "200", description = "Чат зарегистрирован")
     @ApiResponse(responseCode = "400", description = "Некорректные параметры запроса",
                  content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
+    @ApiResponse(responseCode = "409", description = "Повтороное добавление",
+                 content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
     @PostMapping("/{id}")
     public void tgChatIdPost(@PathVariable("id") Long id) {
         log.info("/tg-chat/{id} POST endpoint");

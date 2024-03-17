@@ -32,14 +32,14 @@ public class JdbcLinkService implements LinkService {
         URI url = removeLinkRequest.link();
         Long linkId = null;
         try {
-            linkId = linkRepository.findIdByUrl(url);
+            linkId = linkRepository.findIdByUrl(url.toString());
             chatLinksRepository.remove(tgChatId, linkId);
         } catch (EmptyResultDataAccessException e) {
             log.warn("Link {} does not exist to delete", url);
         }
         return LinkResponse.builder()
             .id(linkId)
-            .url(url)
+            .link(url)
             .build();
     }
 
@@ -55,7 +55,7 @@ public class JdbcLinkService implements LinkService {
         URI url = addLinkRequest.link();
         Long linkId = null;
         try {
-            linkId = linkRepository.findIdByUrl(url);
+            linkId = linkRepository.findIdByUrl(url.toString());
         } catch (EmptyResultDataAccessException e) {
             log.warn("Link {} was not added yet", url);
         }
@@ -70,7 +70,7 @@ public class JdbcLinkService implements LinkService {
 
         return LinkResponse.builder()
             .id(linkId)
-            .url(url)
+            .link(url)
             .build();
     }
 

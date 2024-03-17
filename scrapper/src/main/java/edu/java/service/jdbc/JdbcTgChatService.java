@@ -2,10 +2,12 @@ package edu.java.service.jdbc;
 
 import edu.java.dao.JdbcTgChatDao;
 import edu.java.dto.tgchatlinks.TgChatResponse;
+import edu.java.exception.TgChatAlreadyRegisteredException;
 import edu.java.service.TgChatService;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +22,16 @@ public class JdbcTgChatService implements TgChatService {
     @Override
     public void remove(Long id) {
         tgChatRepository.remove(id);
-        //        throw new TgChatNotExistException(); //TODO
     }
 
     @Transactional
     @Override
     public void save(Long id) {
-        tgChatRepository.save(id);
-        //        throw new TgChatAlreadyRegisteredException(); //TODO
+        try {
+            tgChatRepository.save(id);
+        } catch (DuplicateKeyException e) {
+            throw new TgChatAlreadyRegisteredException();
+        }
     }
 
     @Override

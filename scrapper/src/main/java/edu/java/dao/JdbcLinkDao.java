@@ -4,7 +4,6 @@ import edu.java.dto.link.LinkResponse;
 import edu.java.dto.link.LinkUpdateResponse;
 import edu.java.util.mapper.LinkForUpdateResponseMapper;
 import edu.java.util.mapper.LinkResponseMapper;
-import java.net.URI;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.time.OffsetDateTime;
@@ -46,8 +45,8 @@ public class JdbcLinkDao {
         return jdbcTemplate.query(sql, linkResponseMapper, tgChatId);
     }
 
-    public Long findIdByUrl(URI url) {
-        return jdbcTemplate.queryForObject("SELECT id from links WHERE url = ?", Long.class, url.toString());
+    public Long findIdByUrl(String link) {
+        return jdbcTemplate.queryForObject("SELECT id from links WHERE url = ?", Long.class, link);
     }
 
     public List<LinkUpdateResponse> findLinksToCheckForUpdates(Long forceCheckDelay) {
