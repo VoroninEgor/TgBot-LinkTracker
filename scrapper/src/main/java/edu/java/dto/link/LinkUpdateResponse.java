@@ -12,6 +12,6 @@ public record LinkUpdateResponse(
     @NotNull
     URI url,
 
-    OffsetDateTime updatedAt
+    OffsetDateTime lastCheck
 ) {
 }
