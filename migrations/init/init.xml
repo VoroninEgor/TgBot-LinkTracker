@@ -65,4 +65,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="drop_column_updated_at_links_table" author="Egor Voronin">
+        <sql>
+            ALTER TABLE links DROP COLUMN updated_at;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
