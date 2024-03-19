@@ -16,11 +16,9 @@ public class LinkForUpdateResponseMapper implements RowMapper<LinkUpdateResponse
     public LinkUpdateResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
         long id = rs.getLong("id");
         URI url = URI.create(rs.getString("url"));
-        Timestamp updatedAt = rs.getTimestamp("updated_at");
-        OffsetDateTime offsetDateTimeUpdatedAt = null;
-        if (updatedAt != null) {
-             offsetDateTimeUpdatedAt = OffsetDateTime.of(updatedAt.toLocalDateTime(), ZoneOffset.UTC);
-        }
+        Timestamp lastCheck = rs.getTimestamp("last_check");
+        OffsetDateTime offsetDateTimeUpdatedAt = OffsetDateTime.of(lastCheck.toLocalDateTime(), ZoneOffset.UTC);
+
         return new LinkUpdateResponse(id, url, offsetDateTimeUpdatedAt);
     }
 }

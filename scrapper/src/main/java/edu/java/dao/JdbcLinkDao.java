@@ -56,9 +56,9 @@ public class JdbcLinkDao {
         return jdbcTemplate.query(sql, linkForUpdateResponseMapper, forceCheckInSec);
     }
 
-    public void update(String link, OffsetDateTime updatedAt) {
-        jdbcTemplate.update("UPDATE links SET updated_at=?, last_check=CURRENT_TIMESTAMP WHERE url=?",
-            updatedAt, link
+    public void update(String link, OffsetDateTime lastCheck) {
+        jdbcTemplate.update("UPDATE links SET last_check=? WHERE url=?",
+            lastCheck, link
         );
     }
 }

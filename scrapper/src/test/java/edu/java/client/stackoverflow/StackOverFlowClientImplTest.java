@@ -2,7 +2,7 @@ package edu.java.client.stackoverflow;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import edu.java.client.AbstractTest;
-import edu.java.dto.QuestionResponse;
+import edu.java.dto.stackoverflow.QuestionResponse;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;

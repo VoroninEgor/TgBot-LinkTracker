@@ -1,7 +1,7 @@
 package edu.java.controller.link;
 
-import edu.java.dto.AddLinkRequest;
-import edu.java.dto.RemoveLinkRequest;
+import edu.java.dto.link.AddLinkRequest;
+import edu.java.dto.link.RemoveLinkRequest;
 import edu.java.dto.link.LinkResponse;
 import edu.java.dto.link.ListLinksResponse;
 import edu.java.exception.ApiErrorResponse;

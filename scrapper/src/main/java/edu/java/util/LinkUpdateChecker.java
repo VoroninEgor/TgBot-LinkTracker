@@ -1,10 +1,9 @@
 package edu.java.util;
 
-import edu.java.client.github.GitHubClient;
-import edu.java.client.stackoverflow.StackOverFlowClient;
-import edu.java.dto.QuestionResponse;
-import edu.java.dto.RepoResponse;
+import edu.java.dto.LastUpdate;
+import edu.java.util.checker.UrlChecker;
 import java.time.OffsetDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,27 +13,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LinkUpdateChecker {
 
-    private final StackOverFlowClient stackOverFlowClient;
-    private final GitHubClient gitHubClient;
-    private final UrlParser urlParser;
+    private final List<UrlChecker> urlCheckers;
 
-    public OffsetDateTime getLastUpdateTime(String url) {
+    public LastUpdate getLastUpdate(String url, OffsetDateTime lastCheck) {
         log.info("get last update time for " + url);
 
-        String gitHubRegex = "^https://github\\.com/[^/]+/[^/]+.*$";
-        String stackOverFlowRegex = "^https://stackoverflow\\.com/questions/\\d+/.*$";
-        OffsetDateTime lastUpdateTime = null;
-
-        if (url.matches(gitHubRegex)) {
-            String userName = urlParser.fetchUserNameFromGitHubLink(url);
-            String repoName = urlParser.fetchRepoNameFromGitHubLink(url);
-            RepoResponse response = gitHubClient.fetchRepo(userName, repoName);
-            lastUpdateTime = response.updatedAt();
-        } else if (url.matches(stackOverFlowRegex)) {
-            Long id = urlParser.fetchQuestionIdFromStackOverFlowLink(url);
-            QuestionResponse response = stackOverFlowClient.fetchQuestion(id);
-            lastUpdateTime = response.items().getFirst().updatedAt();
+        for (UrlChecker urlChecker : urlCheckers) {
+            if (urlChecker.isLinkTrackable(url)) {
+                return urlChecker.getLastUpdate(url, lastCheck);
+            }
         }
-        return lastUpdateTime;
+
+        return LastUpdate.builder().isUpdated(false).build();
     }
 }

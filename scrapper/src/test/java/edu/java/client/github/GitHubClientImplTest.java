@@ -2,7 +2,7 @@ package edu.java.client.github;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import edu.java.client.AbstractTest;
-import edu.java.dto.RepoResponse;
+import edu.java.dto.github.RepoResponse;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
