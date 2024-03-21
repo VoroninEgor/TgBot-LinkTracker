@@ -1,8 +1,8 @@
-package edu.java.service.jdbc;
+package edu.java.service.jooq;
 
-import edu.java.dao.jdbc.JdbcLinkDao;
-import edu.java.dao.jdbc.JdbcTgChatDao;
-import edu.java.dao.jdbc.JdbcTgChatLinksDao;
+import edu.java.dao.jooq.JooqLinkDao;
+import edu.java.dao.jooq.JooqTgChatDao;
+import edu.java.dao.jooq.JooqTgChatLinksDao;
 import edu.java.dto.link.AddLinkRequest;
 import edu.java.dto.link.LinkResponse;
 import edu.java.dto.link.LinkUpdateResponse;
@@ -16,17 +16,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
-public class JdbcLinkService implements LinkService {
-    private final JdbcLinkDao linkRepository;
-    private final JdbcTgChatDao tgChatRepository;
-    private final JdbcTgChatLinksDao chatLinksRepository;
+public class JooqLinkService implements LinkService {
+
+    private final JooqLinkDao linkDao;
+    private final JooqTgChatDao tgChatDao;
+    private final JooqTgChatLinksDao tgChatLinksDao;
 
     @Transactional
     @Override
@@ -34,8 +33,8 @@ public class JdbcLinkService implements LinkService {
         URI url = removeLinkRequest.link();
         Long linkId = null;
         try {
-            linkId = linkRepository.findIdByUrl(url.toString());
-            chatLinksRepository.remove(tgChatId, linkId);
+            linkId = linkDao.findIdByUrl(url.toString());
+            tgChatLinksDao.remove(tgChatId, linkId);
         } catch (EmptyResultDataAccessException e) {
             log.warn("Link {} does not exist to delete", url);
         }
@@ -47,7 +46,7 @@ public class JdbcLinkService implements LinkService {
 
     @Override
     public ListLinksResponse getLinks(Long tgChatId) {
-        List<LinkResponse> links = linkRepository.findAllByTgChatId(tgChatId);
+        List<LinkResponse> links = linkDao.findAllByTgChatId(tgChatId);
         return new ListLinksResponse(links, links.size());
     }
 
@@ -57,19 +56,19 @@ public class JdbcLinkService implements LinkService {
         URI url = addLinkRequest.link();
         Long linkId;
         try {
-            linkId = linkRepository.findIdByUrl(url.toString());
+            linkId = linkDao.findIdByUrl(url.toString());
         } catch (EmptyResultDataAccessException e) {
             log.warn("Link {} was not added yet", url);
-            linkId = linkRepository.save(url.toString());
+            linkId = linkDao.save(url.toString());
         }
         try {
-            tgChatRepository.fetchById(tgChatId);
+            tgChatDao.fetchById(tgChatId);
         } catch (EmptyResultDataAccessException e) {
             log.warn("TgChat {} was not added yet", tgChatId);
-            tgChatRepository.save(tgChatId);
+            tgChatDao.save(tgChatId);
         }
         try {
-            chatLinksRepository.save(tgChatId, linkId);
+            tgChatLinksDao.save(tgChatId, linkId);
         } catch (DuplicateKeyException e) {
             log.warn("Link was added already");
         }
@@ -83,19 +82,19 @@ public class JdbcLinkService implements LinkService {
     @Override
     public List<LinkUpdateResponse> findLinksToCheckForUpdates(Long forceCheckDelay) {
         log.info("Find links to check for updates...");
-        return linkRepository.findLinksToCheckForUpdates(forceCheckDelay);
+        return linkDao.findLinksToCheckForUpdates(forceCheckDelay);
     }
 
     @Transactional
     @Override
     public void updateLink(URI link, OffsetDateTime lastCheck) {
         log.info("Update link " + link + "with new lastCheck: " + lastCheck);
-        linkRepository.update(link.toString(), lastCheck);
+        linkDao.update(link.toString(), lastCheck);
     }
 
     @Transactional
     @Override
     public void remove(URI link) {
-        linkRepository.remove(link.toString());
+        linkDao.remove(link.toString());
     }
 }
