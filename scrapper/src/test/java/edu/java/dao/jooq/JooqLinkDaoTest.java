@@ -1,8 +1,5 @@
-package edu.java.dao;
+package edu.java.dao.jooq;
 
-import edu.java.dao.jdbc.JdbcLinkDao;
-import edu.java.dao.jdbc.JdbcTgChatDao;
-import edu.java.dao.jdbc.JdbcTgChatLinksDao;
 import edu.java.dto.link.LinkResponse;
 import edu.java.dto.link.LinkUpdateResponse;
 import edu.java.scrapper.IntegrationTest;
@@ -14,22 +11,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class JdbcLinkDaoTest extends IntegrationTest {
+class JooqLinkDaoTest extends IntegrationTest {
 
     @Autowired
-    JdbcLinkDao jdbcLinkDao;
+    JooqLinkDao linkDao;
     @Autowired
-    JdbcTgChatDao jdbcTgChatDao;
+    JooqTgChatDao tgChatDao;
+    @Autowired
+    JooqTgChatLinksDao tgChatLinksDao;
     @Autowired
     JdbcTemplate jdbcTemplate;
-    @Autowired
-    JdbcTgChatLinksDao jdbcTgChatLinksDao;
 
     @Transactional
     @Test
     void save() {
         String link = "link";
-        jdbcLinkDao.save(link);
+        linkDao.save(link);
         String response = jdbcTemplate.queryForObject("SELECT url from links WHERE url = ?", String.class, link);
         assertEquals(link, response);
     }
@@ -38,9 +35,9 @@ class JdbcLinkDaoTest extends IntegrationTest {
     @Test
     void remove() {
         String link = "link";
-        jdbcLinkDao.save(link);
+        linkDao.save(link);
         Integer countBeforeRemoving = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM links", Integer.class);
-        jdbcLinkDao.remove(link);
+        linkDao.remove(link);
         Integer countAfterRemoving = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM links", Integer.class);
         assertEquals(1, countBeforeRemoving - countAfterRemoving);
     }
@@ -48,13 +45,13 @@ class JdbcLinkDaoTest extends IntegrationTest {
     @Transactional
     @Test
     void findAllByTgChatId() {
-        Long link1Id = jdbcLinkDao.save("link1");
-        Long link2Id = jdbcLinkDao.save("link2");
-        jdbcTgChatDao.save(1L);
-        jdbcTgChatLinksDao.save(1L, link1Id);
-        jdbcTgChatLinksDao.save(1L, link2Id);
+        Long link1Id = linkDao.save("link1");
+        Long link2Id = linkDao.save("link2");
+        tgChatDao.save(1L);
+        tgChatLinksDao.save(1L, link1Id);
+        tgChatLinksDao.save(1L, link2Id);
 
-        List<LinkResponse> linkResponses = jdbcLinkDao.findAllByTgChatId(1L);
+        List<LinkResponse> linkResponses = linkDao.findAllByTgChatId(1L);
         assertEquals(2, linkResponses.size());
     }
 
@@ -62,17 +59,17 @@ class JdbcLinkDaoTest extends IntegrationTest {
     @Test
     void findIdByUrl() {
         String link = "link";
-        Long link1Id = jdbcLinkDao.save(link);
-        Long idByUrl = jdbcLinkDao.findIdByUrl(link);
+        Long link1Id = linkDao.save(link);
+        Long idByUrl = linkDao.findIdByUrl(link);
         assertEquals(link1Id, idByUrl);
     }
 
     @Transactional
     @Test
     void findLinksToCheckForUpdates() {
-        jdbcLinkDao.save("link1");
-        jdbcLinkDao.save("link2");
-        List<LinkUpdateResponse> linksToCheckForUpdates = jdbcLinkDao.findLinksToCheckForUpdates(10L);
+        linkDao.save("link1");
+        linkDao.save("link2");
+        List<LinkUpdateResponse> linksToCheckForUpdates = linkDao.findLinksToCheckForUpdates(10L);
         assertEquals(2, linksToCheckForUpdates.size());
     }
 
@@ -80,12 +77,12 @@ class JdbcLinkDaoTest extends IntegrationTest {
     @Test
     void update() {
         String link = "link";
-        jdbcLinkDao.save(link);
-        int before = jdbcLinkDao.findLinksToCheckForUpdates(10L).size();
+        linkDao.save(link);
+        int before = linkDao.findLinksToCheckForUpdates(10L).size();
 
-        jdbcLinkDao.update(link, OffsetDateTime.now());
+        linkDao.update(link, OffsetDateTime.now());
 
-        int after = jdbcLinkDao.findLinksToCheckForUpdates(10L).size();
+        int after = linkDao.findLinksToCheckForUpdates(10L).size();
 
         assertEquals(1, before);
         assertEquals(0, after);

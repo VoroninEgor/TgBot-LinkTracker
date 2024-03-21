@@ -1,8 +1,5 @@
-package edu.java.dao;
+package edu.java.dao.jooq;
 
-import edu.java.dao.jdbc.JdbcLinkDao;
-import edu.java.dao.jdbc.JdbcTgChatDao;
-import edu.java.dao.jdbc.JdbcTgChatLinksDao;
 import edu.java.scrapper.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class JdbcTgChatLinksDaoTest extends IntegrationTest {
+class JooqTgChatLinksDaoTest extends IntegrationTest {
 
     @Autowired
-    JdbcTgChatLinksDao jdbcTgChatLinksDao;
+    JooqLinkDao linkDao;
     @Autowired
-    JdbcLinkDao jdbcLinkDao;
+    JooqTgChatDao tgChatDao;
     @Autowired
-    JdbcTgChatDao jdbcTgChatDao;
+    JooqTgChatLinksDao tgChatLinksDao;
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -26,11 +23,11 @@ class JdbcTgChatLinksDaoTest extends IntegrationTest {
     @Test
     void save() {
         String link = "link";
-        Long linkId = jdbcLinkDao.save(link);
-        jdbcTgChatDao.save(1L);
-        jdbcTgChatDao.save(2L);
-        jdbcTgChatLinksDao.save(1L, linkId);
-        jdbcTgChatLinksDao.save(2L, linkId);
+        Long linkId = linkDao.save(link);
+        tgChatDao.save(1L);
+        tgChatDao.save(2L);
+        tgChatLinksDao.save(1L, linkId);
+        tgChatLinksDao.save(2L, linkId);
 
         Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM tgchat_links", Integer.class);
         assertEquals(2, count);
@@ -40,13 +37,13 @@ class JdbcTgChatLinksDaoTest extends IntegrationTest {
     @Test
     void remove() {
         String link = "link";
-        Long linkId = jdbcLinkDao.save(link);
-        jdbcTgChatDao.save(1L);
-        jdbcTgChatDao.save(2L);
-        jdbcTgChatLinksDao.save(1L, linkId);
+        Long linkId = linkDao.save(link);
+        tgChatDao.save(1L);
+        tgChatDao.save(2L);
+        tgChatLinksDao.save(1L, linkId);
         Integer countBefore = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM tgchat_links", Integer.class);
 
-        jdbcTgChatLinksDao.remove(1L, linkId);
+        tgChatLinksDao.remove(1L, linkId);
         Integer countAfter = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM tgchat_links", Integer.class);
 
         assertEquals(1, countBefore - countAfter);

@@ -1,25 +1,23 @@
-package edu.java.dao;
+package edu.java.dao.jooq;
 
-import edu.java.dao.jdbc.JdbcLinkDao;
-import edu.java.dao.jdbc.JdbcTgChatDao;
-import edu.java.dao.jdbc.JdbcTgChatLinksDao;
 import edu.java.dto.tgchatlinks.TgChatResponse;
 import edu.java.scrapper.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-class JdbcTgChatDaoTest extends IntegrationTest {
+class JooqTgChatDaoTest extends IntegrationTest {
 
     @Autowired
-    JdbcTgChatDao jdbcTgChatDao;
+    JooqLinkDao linkDao;
     @Autowired
-    JdbcLinkDao jdbcLinkDao;
+    JooqTgChatDao tgChatDao;
     @Autowired
-    JdbcTgChatLinksDao jdbcTgChatLinksDao;
+    JooqTgChatLinksDao tgChatLinksDao;
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -27,7 +25,7 @@ class JdbcTgChatDaoTest extends IntegrationTest {
     @Test
     void save() {
         Integer countBefore = jdbcTemplate.queryForObject("SELECT COUNT(*) from tgchats", Integer.class);
-        jdbcTgChatDao.save(1L);
+        tgChatDao.save(1L);
         Integer countAfter = jdbcTemplate.queryForObject("SELECT COUNT(*) from tgchats", Integer.class);
         assertEquals(1, countAfter - countBefore);
     }
@@ -35,9 +33,9 @@ class JdbcTgChatDaoTest extends IntegrationTest {
     @Transactional
     @Test
     void remove() {
-        jdbcTgChatDao.save(1L);
+        tgChatDao.save(1L);
         Integer countBefore = jdbcTemplate.queryForObject("SELECT COUNT(*) from tgchats", Integer.class);
-        jdbcTgChatDao.remove(1L);
+        tgChatDao.remove(1L);
         Integer countAfter = jdbcTemplate.queryForObject("SELECT COUNT(*) from tgchats", Integer.class);
 
         assertEquals(1, countBefore - countAfter);
@@ -47,21 +45,21 @@ class JdbcTgChatDaoTest extends IntegrationTest {
     @Test
     void fetchTgChatsIdByLink() {
         String link = "link";
-        Long linkId = jdbcLinkDao.save(link);
-        jdbcTgChatDao.save(1L);
-        jdbcTgChatDao.save(2L);
-        jdbcTgChatLinksDao.save(1L, linkId);
-        jdbcTgChatLinksDao.save(2L, linkId);
+        Long linkId = linkDao.save(link);
+        tgChatDao.save(1L);
+        tgChatDao.save(2L);
+        tgChatLinksDao.save(1L, linkId);
+        tgChatLinksDao.save(2L, linkId);
 
-        List<Long> tgChatIds = jdbcTgChatDao.fetchTgChatsIdByLink(link);
+        List<Long> tgChatIds = tgChatDao.fetchTgChatsIdByLink(link);
         assertEquals(2, tgChatIds.size());
     }
 
     @Transactional
     @Test
     void fetchById() {
-        jdbcTgChatDao.save(1L);
-        TgChatResponse tgChatResponse = jdbcTgChatDao.fetchById(1L);
+        tgChatDao.save(1L);
+        TgChatResponse tgChatResponse = tgChatDao.fetchById(1L);
         assertEquals(1L, tgChatResponse.id());
     }
 }
