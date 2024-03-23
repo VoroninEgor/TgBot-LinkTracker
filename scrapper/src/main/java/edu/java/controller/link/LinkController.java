@@ -45,7 +45,7 @@ public class LinkController {
         @Valid @RequestBody RemoveLinkRequest removeLinkRequest
     ) {
         log.info("/links DELETE endpoint");
-        return linksService.removeLink(tgChatId, removeLinkRequest);
+        return linksService.untrackLinkForUser(tgChatId, removeLinkRequest);
     }
 
     @Operation(operationId = "linksGet", summary = "Получить все отслеживаемые ссылки")
@@ -69,6 +69,6 @@ public class LinkController {
         @NotNull @RequestHeader(value = "Tg-Chat-Id") Long tgChatId, @Valid @RequestBody AddLinkRequest addLinkRequest
     ) {
         log.info("/links POST endpoint");
-        return linksService.addLink(tgChatId, addLinkRequest);
+        return linksService.trackLinkForUser(tgChatId, addLinkRequest);
     }
 }

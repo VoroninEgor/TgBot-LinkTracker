@@ -10,11 +10,11 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 public interface LinkService {
-    LinkResponse removeLink(Long tgChatId, RemoveLinkRequest removeLinkRequest);
+    LinkResponse untrackLinkForUser(Long tgChatId, RemoveLinkRequest removeLinkRequest);
 
     ListLinksResponse getLinks(Long tgChatId);
 
-    LinkResponse addLink(Long tgChatId, AddLinkRequest addLinkRequest);
+    LinkResponse trackLinkForUser(Long tgChatId, AddLinkRequest addLinkRequest);
 
     List<LinkUpdateResponse> findLinksToCheckForUpdates(Long forceCheckDelay);
 

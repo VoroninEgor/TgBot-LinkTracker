@@ -18,13 +18,13 @@ public class JooqTgChatService implements TgChatService {
 
     @Transactional
     @Override
-    public void remove(Long id) {
+    public void unregister(Long id) {
         tgChatDao.remove(id);
     }
 
     @Transactional
     @Override
-    public void save(Long id) {
+    public void register(Long id) {
         try {
             tgChatDao.save(id);
         } catch (DuplicateKeyException e) {

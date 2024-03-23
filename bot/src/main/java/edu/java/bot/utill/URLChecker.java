@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
 @Slf4j
 @UtilityClass
@@ -13,7 +14,7 @@ public class URLChecker {
     private static final String GITHUBLINK = "^https://github\\.com/[^/]+/[^/]+.*$";
     private static final String STACKOVERFLOWLINK = "^https://stackoverflow\\.com/questions/\\d+/.*$";
 
-    @SuppressWarnings("checkstyle:MagicNumber") public static boolean isValid(String url) {
+    public static boolean isValid(String url) {
         if (!url.matches(GITHUBLINK) && !url.matches(STACKOVERFLOWLINK)) {
             return false;
         }
@@ -23,7 +24,7 @@ public class URLChecker {
             connection = (HttpURLConnection) u.openConnection();
             connection.setRequestMethod("HEAD");
             int code = connection.getResponseCode();
-            return code == 200;
+            return code == HttpStatus.OK.value();
         } catch (IOException e) {
             log.warn("incorrect link", e);
         } finally {

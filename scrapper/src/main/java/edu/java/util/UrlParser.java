@@ -4,6 +4,7 @@ import edu.java.exception.UrlParseException;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("checkstyle:MagicNumber")
 public class UrlParser {
     private static final String GITHUBLINK = "^https://github\\.com/[^/]+/[^/]+.*$";
     private static final String STACKOVERFLOWLINK = "^https://stackoverflow\\.com/questions/\\d+/.*$";
@@ -12,28 +13,20 @@ public class UrlParser {
         if (!url.matches(GITHUBLINK)) {
             throw new UrlParseException();
         }
-        int startIndex = url.lastIndexOf("/") + 1;
-        return url.substring(startIndex);
+        return url.split("/")[4];
     }
 
-    @SuppressWarnings("checkstyle:MagicNumber") public String fetchUserNameFromGitHubLink(String url) {
+    public String fetchUserNameFromGitHubLink(String url) {
         if (!url.matches(GITHUBLINK)) {
             throw new UrlParseException();
         }
-        int distanceToStartName = 5;
-        int startIndex = url.indexOf(".com/") + distanceToStartName;
-        int endIndex = url.lastIndexOf("/");
-        return url.substring(startIndex, endIndex);
+        return url.split("/")[3];
     }
 
-    @SuppressWarnings("checkstyle:MagicNumber") public Long fetchQuestionIdFromStackOverFlowLink(String url) {
+    public Long fetchQuestionIdFromStackOverFlowLink(String url) {
         if (!url.matches(STACKOVERFLOWLINK)) {
             throw new UrlParseException();
         }
-        int distanceToId = 10;
-        int startIndex = url.indexOf("questions/") + distanceToId;
-        int endIndex = url.lastIndexOf("/");
-        String id = url.substring(startIndex, endIndex);
-        return Long.parseLong(id);
+        return Long.parseLong(url.split("/")[4]);
     }
 }

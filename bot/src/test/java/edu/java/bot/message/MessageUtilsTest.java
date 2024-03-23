@@ -29,7 +29,7 @@ class MessageUtilsTest {
 
     @Test
     public void getEmptyTrackList() {
-        when(scrapperLinkClient.linksGet(any())).thenReturn(new ListLinksResponse(List.of(), 0));
+        when(scrapperLinkClient.getLinksByChatId(any())).thenReturn(new ListLinksResponse(List.of(), 0));
         MessageUtils messageUtils = new MessageUtils(scrapperLinkClient);
 
         String message = messageUtils.getTrackLinks(5L);
@@ -39,7 +39,7 @@ class MessageUtilsTest {
 
     @Test
     public void getNotEmptyTrackList() {
-        when(scrapperLinkClient.linksGet(any()))
+        when(scrapperLinkClient.getLinksByChatId(any()))
             .thenReturn(new ListLinksResponse(List.of(new LinkResponse(1L, URI.create("Track1"))), 1));
         MessageUtils messageUtils = new MessageUtils(scrapperLinkClient);
 

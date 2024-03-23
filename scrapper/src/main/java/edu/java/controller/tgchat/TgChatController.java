@@ -33,7 +33,7 @@ public class TgChatController {
     @DeleteMapping("/{id}")
     public void tgChatIdDelete(@PathVariable("id") Long id) {
         log.info("/tg-chat/{id} DELETE endpoint");
-        jdbcTgChatService.remove(id);
+        jdbcTgChatService.unregister(id);
     }
 
     @Operation(operationId = "tgChatIdPost", summary = "Зарегистрировать чат")
@@ -45,6 +45,6 @@ public class TgChatController {
     @PostMapping("/{id}")
     public void tgChatIdPost(@PathVariable("id") Long id) {
         log.info("/tg-chat/{id} POST endpoint");
-        jdbcTgChatService.save(id);
+        jdbcTgChatService.register(id);
     }
 }

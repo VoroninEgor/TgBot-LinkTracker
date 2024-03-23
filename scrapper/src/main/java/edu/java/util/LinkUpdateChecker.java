@@ -16,7 +16,7 @@ public class LinkUpdateChecker {
     private final List<UrlChecker> urlCheckers;
 
     public LastUpdate getLastUpdate(String url, OffsetDateTime lastCheck) {
-        log.info("get last update time for " + url);
+        log.info("get last update time for {}", url);
 
         for (UrlChecker urlChecker : urlCheckers) {
             if (urlChecker.isLinkTrackable(url)) {

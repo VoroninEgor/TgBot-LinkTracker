@@ -2,29 +2,28 @@ package edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.utill.MessageUtils;
-import org.junit.jupiter.api.BeforeEach;
+import edu.java.bot.client.ScrapperLinkClient;
+import edu.java.bot.dto.LinkResponse;
+import edu.java.bot.dto.ListLinksResponse;
+import java.net.URI;
+import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ListCommandTest extends AbstractCommandTest {
 
+    @Autowired
     ListCommand listCommand;
-    MessageUtils messageUtils;
-
-    @BeforeEach
-    void setUp() {
-        messageUtils = mock(MessageUtils.class);
-        listCommand = new ListCommand(messageUtils);
-    }
+    @MockBean
+    ScrapperLinkClient scrapperLinkClient;
 
     @Test
     public void handleEmptyTrackList() {
-        when(messageUtils.getTrackLinks(any()))
-            .thenReturn("You don't have tracking resources, use /track");
+        when(scrapperLinkClient.getLinksByChatId(any())).thenReturn(new ListLinksResponse(List.of(), 0));
         Update update = getMockUpdate(1L, "text");
 
         SendMessage sendMessage = listCommand.handle(update);
@@ -35,9 +34,10 @@ class ListCommandTest extends AbstractCommandTest {
 
     @Test
     public void handleNotEmptyTrackList() {
-        when(messageUtils.getTrackLinks(any()))
-            .thenReturn("You've tracked:\n# http://github.com\n# http://stackoverflow.com\n");
-
+        List<LinkResponse> list = List.of(new LinkResponse(5L, URI.create("http://github.com")),
+            new LinkResponse(5L, URI.create("http://stackoverflow.com")));
+        ListLinksResponse response = new ListLinksResponse(list, 2);
+        when(scrapperLinkClient.getLinksByChatId(any())).thenReturn(response);
         Update update = getMockUpdate(2L, "text");
 
         SendMessage sendMessage = listCommand.handle(update);

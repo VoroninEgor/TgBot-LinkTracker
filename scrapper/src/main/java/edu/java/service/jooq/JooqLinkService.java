@@ -29,7 +29,7 @@ public class JooqLinkService implements LinkService {
 
     @Transactional
     @Override
-    public LinkResponse removeLink(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
+    public LinkResponse untrackLinkForUser(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
         URI url = removeLinkRequest.link();
         Long linkId = null;
         try {
@@ -52,7 +52,7 @@ public class JooqLinkService implements LinkService {
 
     @Transactional
     @Override
-    public LinkResponse addLink(Long tgChatId, AddLinkRequest addLinkRequest) {
+    public LinkResponse trackLinkForUser(Long tgChatId, AddLinkRequest addLinkRequest) {
         URI url = addLinkRequest.link();
         Long linkId;
         try {

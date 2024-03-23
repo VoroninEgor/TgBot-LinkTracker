@@ -25,7 +25,7 @@ public class ScrapperLinkClientImpl implements ScrapperLinkClient {
     }
 
     @Override
-    public LinkResponse linksDelete(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
+    public LinkResponse removeLinkByChatId(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
         return webClient.method(HttpMethod.DELETE)
             .uri(BASE_ENDPOINT)
             .header(TGCHAT_ID_HEADER, tgChatId.toString())
@@ -36,7 +36,7 @@ public class ScrapperLinkClientImpl implements ScrapperLinkClient {
     }
 
     @Override
-    public ListLinksResponse linksGet(Long tgChatId) {
+    public ListLinksResponse getLinksByChatId(Long tgChatId) {
         return webClient.get()
             .uri(BASE_ENDPOINT)
             .header(TGCHAT_ID_HEADER, tgChatId.toString())
@@ -46,7 +46,7 @@ public class ScrapperLinkClientImpl implements ScrapperLinkClient {
     }
 
     @Override
-    public LinkResponse linksPost(Long tgChatId, AddLinkRequest addLinkRequest) {
+    public LinkResponse postLinkByChatId(Long tgChatId, AddLinkRequest addLinkRequest) {
         log.info("Post link: {} to tgChat: {}", addLinkRequest, tgChatId);
         return webClient.post()
             .uri(BASE_ENDPOINT)

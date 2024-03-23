@@ -30,7 +30,7 @@ public class JdbcLinkService implements LinkService {
 
     @Transactional
     @Override
-    public LinkResponse removeLink(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
+    public LinkResponse untrackLinkForUser(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
         URI url = removeLinkRequest.link();
         Long linkId = null;
         try {
@@ -53,7 +53,7 @@ public class JdbcLinkService implements LinkService {
 
     @Transactional
     @Override
-    public LinkResponse addLink(Long tgChatId, AddLinkRequest addLinkRequest) {
+    public LinkResponse trackLinkForUser(Long tgChatId, AddLinkRequest addLinkRequest) {
         URI url = addLinkRequest.link();
         Long linkId;
         try {
@@ -89,7 +89,7 @@ public class JdbcLinkService implements LinkService {
     @Transactional
     @Override
     public void updateLink(URI link, OffsetDateTime lastCheck) {
-        log.info("Update link " + link + "with new lastCheck: " + lastCheck);
+        log.info("Update link {}  with new updatedAt: {}", link, lastCheck);
         linkRepository.update(link.toString(), lastCheck);
     }
 

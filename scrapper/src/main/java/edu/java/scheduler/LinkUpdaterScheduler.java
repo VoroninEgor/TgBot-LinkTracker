@@ -34,7 +34,7 @@ public class LinkUpdaterScheduler {
         List<LinkUpdateResponse> linksToCheckForUpdates = linkService.findLinksToCheckForUpdates(forceCheckDelay);
         List<LinkUpdateRequest> linksToUpdate = getLinksToUpdate(linksToCheckForUpdates);
 
-        log.info("Updated links: " + linksToUpdate);
+        log.info("Updated links: {}", linksToUpdate);
 
         linksToUpdate.forEach(botClient::updatesPost);
     }
