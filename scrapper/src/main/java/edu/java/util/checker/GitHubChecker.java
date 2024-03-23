@@ -30,7 +30,6 @@ public class GitHubChecker implements UrlChecker {
         String repoName = urlParser.fetchRepoNameFromGitHubLink(url);
         String username = urlParser.fetchUserNameFromGitHubLink(url);
 
-
         List<GitHubCommitResponse> commits =
             gitHubClient.fetchCommitsSince(username, repoName, since.minusHours(TIME_DIFFERENCE_IN_HOURS));
         List<GitHubPullRequestResponse> pullRequests =
@@ -53,7 +52,8 @@ public class GitHubChecker implements UrlChecker {
         description.append(url).append(" hase ");
         if (!commits.isEmpty()) {
             description.append("new commit ");
-        } else if (!pullRequests.isEmpty()) {
+        }
+        if (!pullRequests.isEmpty()) {
             description.append("new pull request");
         }
         return description.toString();
