@@ -22,7 +22,6 @@ class JdbcLinkDaoTest extends IntegrationTest {
     @Autowired
     JdbcTgChatLinksDao jdbcTgChatLinksDao;
 
-
     @Transactional
     @Test
     void save() {
@@ -42,6 +41,7 @@ class JdbcLinkDaoTest extends IntegrationTest {
         Integer countAfterRemoving = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM links", Integer.class);
         assertEquals(1, countBeforeRemoving - countAfterRemoving);
     }
+
     @Transactional
     @Test
     void findAllByTgChatId() {
@@ -54,6 +54,7 @@ class JdbcLinkDaoTest extends IntegrationTest {
         List<LinkResponse> linkResponses = jdbcLinkDao.findAllByTgChatId(1L);
         assertEquals(2, linkResponses.size());
     }
+
     @Transactional
     @Test
     void findIdByUrl() {
@@ -62,6 +63,7 @@ class JdbcLinkDaoTest extends IntegrationTest {
         Long idByUrl = jdbcLinkDao.findIdByUrl(link);
         assertEquals(link1Id, idByUrl);
     }
+
     @Transactional
     @Test
     void findLinksToCheckForUpdates() {
@@ -70,6 +72,7 @@ class JdbcLinkDaoTest extends IntegrationTest {
         List<LinkUpdateResponse> linksToCheckForUpdates = jdbcLinkDao.findLinksToCheckForUpdates(10L);
         assertEquals(2, linksToCheckForUpdates.size());
     }
+
     @Transactional
     @Test
     void update() {

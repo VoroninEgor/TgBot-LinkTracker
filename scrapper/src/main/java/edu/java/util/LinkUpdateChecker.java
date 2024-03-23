@@ -23,18 +23,19 @@ public class LinkUpdateChecker {
 
         String gitHubRegex = "^https://github\\.com/[^/]+/[^/]+.*$";
         String stackOverFlowRegex = "^https://stackoverflow\\.com/questions/\\d+/.*$";
-        OffsetDateTime lastUpdateTime = null;
 
         if (url.matches(gitHubRegex)) {
             String userName = urlParser.fetchUserNameFromGitHubLink(url);
             String repoName = urlParser.fetchRepoNameFromGitHubLink(url);
             RepoResponse response = gitHubClient.fetchRepo(userName, repoName);
-            lastUpdateTime = response.updatedAt();
-        } else if (url.matches(stackOverFlowRegex)) {
+            return response.updatedAt();
+        }
+        if (url.matches(stackOverFlowRegex)) {
             Long id = urlParser.fetchQuestionIdFromStackOverFlowLink(url);
             QuestionResponse response = stackOverFlowClient.fetchQuestion(id);
-            lastUpdateTime = response.items().getFirst().updatedAt();
+            return response.items().getFirst().updatedAt();
         }
-        return lastUpdateTime;
+
+        return null;
     }
 }

@@ -22,13 +22,13 @@ public class StartCommand extends AbstractCommand {
 
     @Override
     public SendMessage handle(Update update) {
-        log.info("StartCommand handling...");
-        Long tgChatId = update.message().chat().id();
+        Long chatId = update.message().chat().id();
+        log.info("StartCommand for chat: {} handling...", chatId);
         try {
-            scrapperTgChatClient.tgChatIdPost(tgChatId);
+            scrapperTgChatClient.create(chatId);
         } catch (Exception e) {
-            log.warn("Chat already been registered");
+            log.warn("Chat {} already been registered", chatId);
         }
-        return new SendMessage(tgChatId, MESSAGE);
+        return new SendMessage(chatId, MESSAGE);
     }
 }

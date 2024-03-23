@@ -40,7 +40,7 @@ class ScrapperLinkClientImplTest extends AbstractTest{
             .withRequestBody(equalToJson(expectedJson))
             .willReturn(okJson(responseJson)));
 
-        LinkResponse linkResponse = client.linksDelete(5L, removeLinkRequest);
+        LinkResponse linkResponse = client.removeLinkByChatId(5L, removeLinkRequest);
 
         assertThat(linkResponse)
             .extracting(LinkResponse::id, LinkResponse::link)
@@ -54,7 +54,7 @@ class ScrapperLinkClientImplTest extends AbstractTest{
             .withHeader("Tg-Chat-Id", containing("5"))
             .willReturn(okJson(responseJson)));
 
-        ListLinksResponse listLinksResponse = client.linksGet(5L);
+        ListLinksResponse listLinksResponse = client.getLinksByChatId(5L);
         LinkResponse linkResponse = listLinksResponse.links().getFirst();
 
         assertThat(linkResponse)
@@ -74,7 +74,7 @@ class ScrapperLinkClientImplTest extends AbstractTest{
             .withRequestBody(equalToJson(expectedJson))
             .willReturn(okJson(responseJson)));
 
-        LinkResponse linkResponse = client.linksPost(5L, addLinkRequest);
+        LinkResponse linkResponse = client.postLinkByChatId(5L, addLinkRequest);
 
         assertThat(linkResponse)
             .extracting(LinkResponse::id, LinkResponse::link)

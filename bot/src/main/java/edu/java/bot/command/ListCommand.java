@@ -20,8 +20,8 @@ public class ListCommand extends AbstractCommand {
 
     @Override
     public SendMessage handle(Update update) {
-        log.info("ListCommand handling...");
         Long chatId = update.message().chat().id();
+        log.info("ListCommand for chat: {} handling...", chatId);
         String message = messageUtils.getTrackLinks(chatId);
         return new SendMessage(chatId, message);
     }

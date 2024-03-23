@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import static java.lang.String.format;
 
 @Component
 @EnableScheduling
@@ -34,7 +33,7 @@ public class LinkUpdaterScheduler {
         List<LinkUpdateResponse> linksToCheckForUpdates = linkService.findLinksToCheckForUpdates(forceCheckDelay);
         List<LinkUpdateRequest> linksToUpdate = getLinksToUpdate(linksToCheckForUpdates);
 
-        log.info("Updated links: " + linksToUpdate);
+        log.info("Updated links: {}", linksToUpdate);
 
         linksToUpdate.forEach(botClient::updatesPost);
     }
@@ -50,7 +49,7 @@ public class LinkUpdaterScheduler {
 
                 linkService.remove(linkToCheck.url());
             } else if (oldUpdateTime == null || oldUpdateTime.isBefore(lastUpdateTime)) {
-                log.info(format("old update time: %s | new update time: %s", oldUpdateTime, lastUpdateTime));
+                log.info("old update time: {} | new update time: {}", oldUpdateTime, lastUpdateTime);
 
                 List<Long> tgChatsId = tgChatService.fetchTgChatsIdByLink(linkToCheck.url());
                 LinkUpdateRequest linkToUpdate = LinkUpdateRequest.builder()

@@ -22,7 +22,7 @@ public class MessageUtils {
     }
 
     public String getTrackLinks(Long chatId) {
-        List<LinkResponse> trackingLinks = scrapperLinkClient.linksGet(chatId).links();
+        List<LinkResponse> trackingLinks = scrapperLinkClient.getLinksByChatId(chatId).links();
         StringBuilder message = new StringBuilder();
         if (trackingLinks.isEmpty()) {
             message.append("You don't have tracking resources, use /track");

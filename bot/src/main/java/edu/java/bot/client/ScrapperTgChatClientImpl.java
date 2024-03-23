@@ -1,5 +1,6 @@
 package edu.java.bot.client;
 
+import edu.java.bot.exception.ApiErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -22,7 +23,7 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
     }
 
     @Override
-    public void tgChatIdDelete(Long id) {
+    public void removeById(Long id) {
         webClient.delete()
             .uri(BASE_ENDPOINT_WITH_PATH_VAR, id)
             .retrieve()
@@ -32,7 +33,7 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
     }
 
     @Override
-    public void tgChatIdPost(Long id) {
+    public void create(Long id) {
         webClient.post()
             .uri(BASE_ENDPOINT_WITH_PATH_VAR, id)
             .retrieve()
@@ -42,6 +43,7 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
     }
 
     private Mono<? extends Throwable> handleError(ClientResponse response) {
-        return Mono.error(Exception::new);
+        return response.bodyToMono(ApiErrorResponse.class)
+            .flatMap(error -> Mono.error(new Exception(error.getExceptionMessage())));
     }
 }

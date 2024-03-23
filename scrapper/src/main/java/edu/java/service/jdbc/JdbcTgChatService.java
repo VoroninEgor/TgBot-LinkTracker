@@ -20,13 +20,13 @@ public class JdbcTgChatService implements TgChatService {
 
     @Transactional
     @Override
-    public void remove(Long id) {
+    public void unregister(Long id) {
         tgChatRepository.remove(id);
     }
 
     @Transactional
     @Override
-    public void save(Long id) {
+    public void register(Long id) {
         try {
             tgChatRepository.save(id);
         } catch (DuplicateKeyException e) {

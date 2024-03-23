@@ -31,15 +31,15 @@ public class UntrackCommand extends AbstractCommand {
 
     @Override
     public SendMessage handle(Update update) {
-        log.info("UntrackCommand handling...");
-
-        Long tgChatId = update.message().chat().id();
+        Long chatId = update.message().chat().id();
+        log.info("UntrackCommand for chat: {} handling...", chatId);
         String url = messageUtils.parseUrlFromText(update.message().text());
-        LinkResponse linkResponse = scrapperLinkClient.linksDelete(tgChatId, new RemoveLinkRequest(URI.create(url)));
+        LinkResponse linkResponse = scrapperLinkClient
+            .removeLinkByChatId(chatId, new RemoveLinkRequest(URI.create(url)));
         if (linkResponse.id() != null) {
-            return new SendMessage(tgChatId, "Successfully stop tracking");
+            return new SendMessage(chatId, "Successfully stop tracking");
         }
-        log.warn("invalid link was sent to untrack link");
-        return new SendMessage(tgChatId, MESSAGE);
+        log.warn("UntrackCommand chat {} sent invalid link", chatId);
+        return new SendMessage(chatId, MESSAGE);
     }
 }

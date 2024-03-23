@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import static java.lang.String.format;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class UpdatesController {
     @PostMapping
     public void updatesPost(@Valid @RequestBody LinkUpdateRequest linkUpdate) {
         log.info("/updates POST endpoint");
-        log.info(format("link %s update for chats: %s", linkUpdate.url(), linkUpdate.tgChatIds()));
+        log.info("link {} update for chats: {}", linkUpdate.url(), linkUpdate.tgChatIds());
         updatesService.handleUpdate(linkUpdate);
     }
 }
