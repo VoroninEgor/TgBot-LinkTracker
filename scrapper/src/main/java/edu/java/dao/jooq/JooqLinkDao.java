@@ -22,6 +22,7 @@ public class JooqLinkDao implements LinkDao {
 
     private final DSLContext dslContext;
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public Long save(String link) {
         LocalDateTime epochDate = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
