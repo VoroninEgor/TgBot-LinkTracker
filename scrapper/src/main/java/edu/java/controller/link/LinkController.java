@@ -56,7 +56,7 @@ public class LinkController {
     @GetMapping
     public ListLinksResponse linksGet(@NotNull @RequestHeader(value = "Tg-Chat-Id") Long tgChatId) {
         log.info("/links GET endpoint");
-        return linksService.getLinks(tgChatId);
+        return linksService.getLinksByTgChatId(tgChatId);
     }
 
     @Operation(operationId = "linksPost", summary = "Добавить отслеживание ссылки")

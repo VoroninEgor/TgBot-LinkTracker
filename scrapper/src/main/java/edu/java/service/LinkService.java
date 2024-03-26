@@ -12,7 +12,7 @@ import java.util.List;
 public interface LinkService {
     LinkResponse untrackLinkForUser(Long tgChatId, RemoveLinkRequest removeLinkRequest);
 
-    ListLinksResponse getLinks(Long tgChatId);
+    ListLinksResponse getLinksByTgChatId(Long tgChatId);
 
     LinkResponse trackLinkForUser(Long tgChatId, AddLinkRequest addLinkRequest);
 

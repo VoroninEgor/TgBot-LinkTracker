@@ -45,7 +45,7 @@ public class JooqLinkService implements LinkService {
     }
 
     @Override
-    public ListLinksResponse getLinks(Long tgChatId) {
+    public ListLinksResponse getLinksByTgChatId(Long tgChatId) {
         List<LinkResponse> links = linkDao.findAllByTgChatId(tgChatId);
         return new ListLinksResponse(links, links.size());
     }

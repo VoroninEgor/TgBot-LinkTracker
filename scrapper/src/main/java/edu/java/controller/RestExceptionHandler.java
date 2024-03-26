@@ -2,6 +2,7 @@ package edu.java.controller;
 
 import edu.java.exception.ApiErrorResponse;
 import edu.java.exception.LinkAlreadyAddedException;
+import edu.java.exception.LinkNotExistException;
 import edu.java.exception.TgChatAlreadyRegisteredException;
 import edu.java.exception.TgChatNotExistException;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,12 @@ public class RestExceptionHandler {
     @ExceptionHandler(TgChatNotExistException.class)
     public ResponseEntity<ApiErrorResponse> tgChatNotExist(TgChatNotExistException e) {
         String errorDescription = "TgChat does not exist";
+        return toResponseEntity(e, HttpStatus.NOT_FOUND, errorDescription);
+    }
+
+    @ExceptionHandler(LinkNotExistException.class)
+    public ResponseEntity<ApiErrorResponse> linkNotExist(LinkNotExistException e) {
+        String errorDescription = "Link does not exist";
         return toResponseEntity(e, HttpStatus.NOT_FOUND, errorDescription);
     }
 

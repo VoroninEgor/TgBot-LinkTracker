@@ -46,7 +46,7 @@ public class JdbcLinkService implements LinkService {
     }
 
     @Override
-    public ListLinksResponse getLinks(Long tgChatId) {
+    public ListLinksResponse getLinksByTgChatId(Long tgChatId) {
         List<LinkResponse> links = linkRepository.findAllByTgChatId(tgChatId);
         return new ListLinksResponse(links, links.size());
     }
