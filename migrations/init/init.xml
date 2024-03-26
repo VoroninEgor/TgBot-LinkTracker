@@ -71,4 +71,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="add_separate_pk_for_tgchat_links_table" author="Egor Voronin">
+        <sql>
+            ALTER TABLE tgchat_links DROP CONSTRAINT tgchat_links_pk;
+            ALTER TABLE tgchat_links ADD COLUMN id bigserial PRIMARY KEY;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
