@@ -1,9 +1,8 @@
-package edu.java.service.jooq;
+package edu.java.service;
 
-import edu.java.dao.jooq.JooqTgChatDao;
+import edu.java.dao.TgChatDao;
 import edu.java.dto.tgchatlinks.TgChatResponse;
 import edu.java.exception.TgChatAlreadyRegisteredException;
-import edu.java.service.TgChatService;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class JooqTgChatService implements TgChatService {
+public class DefaultTgChatService implements TgChatService {
 
-    private final JooqTgChatDao tgChatDao;
+    private final TgChatDao tgChatDao;
 
     @Transactional
     @Override

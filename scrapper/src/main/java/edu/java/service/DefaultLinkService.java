@@ -1,14 +1,13 @@
-package edu.java.service.jooq;
+package edu.java.service;
 
-import edu.java.dao.jooq.JooqLinkDao;
-import edu.java.dao.jooq.JooqTgChatDao;
-import edu.java.dao.jooq.JooqTgChatLinksDao;
+import edu.java.dao.LinkDao;
+import edu.java.dao.TgChatDao;
+import edu.java.dao.TgChatLinksDao;
 import edu.java.dto.link.AddLinkRequest;
 import edu.java.dto.link.LinkResponse;
 import edu.java.dto.link.LinkUpdateResponse;
 import edu.java.dto.link.ListLinksResponse;
 import edu.java.dto.link.RemoveLinkRequest;
-import edu.java.service.LinkService;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -21,11 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
-public class JooqLinkService implements LinkService {
+public class DefaultLinkService implements LinkService {
 
-    private final JooqLinkDao linkDao;
-    private final JooqTgChatDao tgChatDao;
-    private final JooqTgChatLinksDao tgChatLinksDao;
+    private final LinkDao linkDao;
+    private final TgChatDao tgChatDao;
+    private final TgChatLinksDao tgChatLinksDao;
 
     @Transactional
     @Override
