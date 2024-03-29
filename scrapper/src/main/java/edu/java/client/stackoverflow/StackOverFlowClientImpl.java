@@ -45,12 +45,9 @@ public class StackOverFlowClientImpl implements StackOverFlowClient {
             .uri(ANSWERS_URL, questionId)
             .retrieve()
             .bodyToMono(AnswersFetchResponse.class)
-            .block()
+            .blockOptional()
+            .orElse(new AnswersFetchResponse(List.of()))
             .items();
-
-        if (answers == null || answers.isEmpty()) {
-            return new AnswersFetchResponse(List.of());
-        }
 
         List<AnswersFetchResponse.Answer> answersSince = answers.stream()
             .filter(ans -> ans.createdAt().isAfter(since))

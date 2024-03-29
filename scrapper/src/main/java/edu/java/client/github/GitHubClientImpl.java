@@ -4,6 +4,7 @@ import edu.java.dto.github.GitHubCommitResponse;
 import edu.java.dto.github.GitHubPullRequestResponse;
 import edu.java.dto.github.RepoResponse;
 import java.time.OffsetDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -55,10 +56,8 @@ public class GitHubClientImpl implements GitHubClient {
             .retrieve()
             .bodyToFlux(GitHubPullRequestResponse.class)
             .collectList()
-            .block();
-        if (allPullRequest == null || allPullRequest.isEmpty()) {
-            return List.of();
-        }
+            .blockOptional()
+            .orElse(Collections.emptyList());
         return allPullRequest.stream()
             .filter(pr -> pr.createdAt().isAfter(since))
             .collect(Collectors.toList());
