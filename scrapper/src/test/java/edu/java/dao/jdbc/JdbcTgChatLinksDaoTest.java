@@ -1,4 +1,4 @@
-package edu.java.dao;
+package edu.java.dao.jdbc;
 
 import edu.java.dao.jdbc.JdbcLinkDao;
 import edu.java.dao.jdbc.JdbcTgChatDao;

@@ -14,6 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,6 +40,11 @@ class JpaTgChatServiceTest extends IntegrationTest {
         linkService = new JpaLinkService(linkRepo, tgChatRepo, tgChatLinkRepo);
         jdbcTemplate.update("DELETE FROM tgchats WHERE 1=1");
         jdbcTemplate.update("DELETE FROM links WHERE 1=1");
+    }
+
+    @DynamicPropertySource
+    static void DBAccessProperties(DynamicPropertyRegistry registry) {
+        registry.add("app.database-access-type", () -> "jpa");
     }
 
     @Test
