@@ -20,7 +20,7 @@ class UntrackCommandTest extends AbstractCommandTest {
     ScrapperLinkClient scrapperLinkClient;
 
     @Test
-    void handleCorrectUrl_shouldReturnSuccessResponse() {
+    void handleCorrectUrlShouldReturnSuccessResponse() {
         String commandMessage = "/untrack https://github.com/VoroninEgor/tinkoff-java-course-2023-backend";
         when(scrapperLinkClient.removeLinkByChatId(any(), any())).thenReturn(new LinkResponse(5L, URI.create("url")));
         Update update = getMockUpdate(2L, commandMessage);

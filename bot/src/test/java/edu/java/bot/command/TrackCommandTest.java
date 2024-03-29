@@ -15,7 +15,7 @@ class TrackCommandTest extends AbstractCommandTest {
     ScrapperLinkClient scrapperLinkClient;
 
     @Test
-    void handleCorrectUrl_shouldReturnSuccessResponse() {
+    void handleCorrectUrlShouldReturnSuccessResponse() {
         String commandMessage = "/track https://github.com/VoroninEgor/tinkoff-java-course-2023-backend";
         Update update = getMockUpdate(5L, commandMessage);
 

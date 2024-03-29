@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -19,22 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @WireMockTest(httpPort = 8080)
 class StackOverFlowClientImplTest extends AbstractTest {
 
-    String baseUrl;
-    StackOverFlowClientImpl stackOverFlowClient;
-    Long id;
-
-    @BeforeEach
-    void setUp() {
-        baseUrl = "http://localhost:8080";
-        stackOverFlowClient = new StackOverFlowClientImpl(baseUrl);
-        id = 5L;
-    }
+    String baseUrl = "http://localhost:8080";
+    StackOverFlowClientImpl stackOverFlowClient = new StackOverFlowClientImpl(baseUrl);
+    Long id = 5L;
 
     @Test
-    void fetchQuestion_shouldReturnQuestionId() {
+    void fetchQuestionShouldReturnQuestionId() {
         String bodyJson = jsonToString("src/test/resources/stackoverflow.json");
 
-        stubFor(get("/questions/" + id + "?site=stackoverflow.com").willReturn(aResponse()
+        stubFor(get(format("/questions/%s?site=stackoverflow.com", id)).willReturn(aResponse()
             .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(bodyJson)));
@@ -46,10 +38,10 @@ class StackOverFlowClientImplTest extends AbstractTest {
     }
 
     @Test
-    void fetchQuestion_shouldReturnQuestionUpdatedAt() {
+    void fetchQuestionShouldReturnQuestionUpdatedAt() {
         String bodyJson = jsonToString("src/test/resources/stackoverflow.json");
 
-        stubFor(get("/questions/" + id + "?site=stackoverflow.com").willReturn(aResponse()
+        stubFor(get(format("/questions/%s?site=stackoverflow.com", id)).willReturn(aResponse()
             .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(bodyJson)));
