@@ -59,4 +59,16 @@
         </sql>
     </changeSet>
 
+    <changeSet id="add_default_value_to_updated_at_links_table" author="Egor Voronin">
+        <sql>
+            ALTER TABLE links ALTER COLUMN updated_at SET DEFAULT '1970-01-01 00:00:00';
+        </sql>
+    </changeSet>
+
+    <changeSet id="drop_column_updated_at_links_table" author="Egor Voronin">
+        <sql>
+            ALTER TABLE links DROP COLUMN updated_at;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

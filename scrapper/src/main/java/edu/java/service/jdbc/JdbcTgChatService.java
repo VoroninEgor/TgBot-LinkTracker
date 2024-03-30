@@ -1,6 +1,6 @@
 package edu.java.service.jdbc;
 
-import edu.java.dao.JdbcTgChatDao;
+import edu.java.dao.jdbc.JdbcTgChatDao;
 import edu.java.dto.tgchatlinks.TgChatResponse;
 import edu.java.exception.TgChatAlreadyRegisteredException;
 import edu.java.service.TgChatService;

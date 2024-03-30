@@ -1,5 +1,8 @@
 package edu.java.dao;
 
+import edu.java.dao.jdbc.JdbcLinkDao;
+import edu.java.dao.jdbc.JdbcTgChatDao;
+import edu.java.dao.jdbc.JdbcTgChatLinksDao;
 import edu.java.dto.tgchatlinks.TgChatResponse;
 import edu.java.scrapper.IntegrationTest;
 import org.junit.jupiter.api.Test;
@@ -59,6 +62,6 @@ class JdbcTgChatDaoTest extends IntegrationTest {
     void fetchById() {
         jdbcTgChatDao.save(1L);
         TgChatResponse tgChatResponse = jdbcTgChatDao.fetchById(1L);
-        assertEquals(1L,tgChatResponse.id());
+        assertEquals(1L, tgChatResponse.id());
     }
 }

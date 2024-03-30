@@ -1,5 +1,8 @@
 package edu.java.dao;
 
+import edu.java.dao.jdbc.JdbcLinkDao;
+import edu.java.dao.jdbc.JdbcTgChatDao;
+import edu.java.dao.jdbc.JdbcTgChatLinksDao;
 import edu.java.scrapper.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +50,5 @@ class JdbcTgChatLinksDaoTest extends IntegrationTest {
         Integer countAfter = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM tgchat_links", Integer.class);
 
         assertEquals(1, countBefore - countAfter);
-
     }
 }

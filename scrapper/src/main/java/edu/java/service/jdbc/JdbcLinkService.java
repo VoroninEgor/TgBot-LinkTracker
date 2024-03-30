@@ -1,12 +1,13 @@
 package edu.java.service.jdbc;
 
-import edu.java.dao.JdbcLinkDao;
-import edu.java.dao.JdbcTgChatLinksDao;
-import edu.java.dto.AddLinkRequest;
-import edu.java.dto.RemoveLinkRequest;
+import edu.java.dao.jdbc.JdbcLinkDao;
+import edu.java.dao.jdbc.JdbcTgChatDao;
+import edu.java.dao.jdbc.JdbcTgChatLinksDao;
+import edu.java.dto.link.AddLinkRequest;
 import edu.java.dto.link.LinkResponse;
 import edu.java.dto.link.LinkUpdateResponse;
 import edu.java.dto.link.ListLinksResponse;
+import edu.java.dto.link.RemoveLinkRequest;
 import edu.java.service.LinkService;
 import java.net.URI;
 import java.time.OffsetDateTime;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class JdbcLinkService implements LinkService {
     private final JdbcLinkDao linkRepository;
+    private final JdbcTgChatDao tgChatRepository;
     private final JdbcTgChatLinksDao chatLinksRepository;
 
     @Transactional
@@ -53,14 +55,18 @@ public class JdbcLinkService implements LinkService {
     @Override
     public LinkResponse trackLinkForUser(Long tgChatId, AddLinkRequest addLinkRequest) {
         URI url = addLinkRequest.link();
-        Long linkId = null;
+        Long linkId;
         try {
             linkId = linkRepository.findIdByUrl(url.toString());
         } catch (EmptyResultDataAccessException e) {
             log.warn("Link {} was not added yet", url);
-        }
-        if (linkId == null) {
             linkId = linkRepository.save(url.toString());
+        }
+        try {
+            tgChatRepository.fetchById(tgChatId);
+        } catch (EmptyResultDataAccessException e) {
+            log.warn("TgChat {} was not added yet", tgChatId);
+            tgChatRepository.save(tgChatId);
         }
         try {
             chatLinksRepository.save(tgChatId, linkId);
@@ -82,9 +88,9 @@ public class JdbcLinkService implements LinkService {
 
     @Transactional
     @Override
-    public void updateLink(URI link, OffsetDateTime updatedAt) {
-        log.info("Update link {}  with new updatedAt: {}", link, updatedAt);
-        linkRepository.update(link.toString(), updatedAt);
+    public void updateLink(URI link, OffsetDateTime lastCheck) {
+        log.info("Update link {}  with new updatedAt: {}", link, lastCheck);
+        linkRepository.update(link.toString(), lastCheck);
     }
 
     @Transactional

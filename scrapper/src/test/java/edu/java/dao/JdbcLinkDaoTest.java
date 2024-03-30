@@ -1,5 +1,8 @@
 package edu.java.dao;
 
+import edu.java.dao.jdbc.JdbcLinkDao;
+import edu.java.dao.jdbc.JdbcTgChatDao;
+import edu.java.dao.jdbc.JdbcTgChatLinksDao;
 import edu.java.dto.link.LinkResponse;
 import edu.java.dto.link.LinkUpdateResponse;
 import edu.java.scrapper.IntegrationTest;

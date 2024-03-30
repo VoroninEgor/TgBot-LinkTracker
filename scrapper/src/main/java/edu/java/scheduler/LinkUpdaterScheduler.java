@@ -1,7 +1,8 @@
 package edu.java.scheduler;
 
 import edu.java.client.bot.BotClient;
-import edu.java.dto.LinkUpdateRequest;
+import edu.java.dto.LastUpdate;
+import edu.java.dto.link.LinkUpdateRequest;
 import edu.java.dto.link.LinkUpdateResponse;
 import edu.java.service.LinkService;
 import edu.java.service.TgChatService;
@@ -42,25 +43,22 @@ public class LinkUpdaterScheduler {
         List<LinkUpdateRequest> linksToUpdate = new ArrayList<>();
 
         for (LinkUpdateResponse linkToCheck : linksToCheckForUpdates) {
-            OffsetDateTime oldUpdateTime = linkToCheck.updatedAt();
-            OffsetDateTime lastUpdateTime = linkUpdateChecker.getLastUpdateTime(linkToCheck.url().toString());
-            if (lastUpdateTime == null) {
-                log.warn("link not found update");
 
-                linkService.remove(linkToCheck.url());
-            } else if (oldUpdateTime == null || oldUpdateTime.isBefore(lastUpdateTime)) {
-                log.info("old update time: {} | new update time: {}", oldUpdateTime, lastUpdateTime);
+            LastUpdate lastUpdate
+                = linkUpdateChecker.getLastUpdate(linkToCheck.url().toString(), linkToCheck.lastCheck());
+            OffsetDateTime lastCheckTime = lastUpdate.lastCheck();
 
+            if (lastUpdate.isUpdated()) {
                 List<Long> tgChatsId = tgChatService.fetchTgChatsIdByLink(linkToCheck.url());
                 LinkUpdateRequest linkToUpdate = LinkUpdateRequest.builder()
                     .id(linkToCheck.id())
                     .url(linkToCheck.url())
                     .tgChatIds(tgChatsId)
-                    .description("There is update for " + linkToCheck.url())
+                    .description(lastUpdate.description())
                     .build();
                 linksToUpdate.add(linkToUpdate);
             }
-            linkService.updateLink(linkToCheck.url(), lastUpdateTime);
+            linkService.updateLink(linkToCheck.url(), lastCheckTime);
         }
 
         return linksToUpdate;
