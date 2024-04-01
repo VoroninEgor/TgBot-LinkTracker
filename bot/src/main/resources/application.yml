@@ -18,3 +18,18 @@ logging:
 springdoc:
   swagger-ui:
     path: "/swagger-ui"
+
+resilience4j:
+  retry:
+    configs:
+      default:
+        max-attempts: 3
+        wait-duration: 2s
+        enable-exponential-backoff: true
+        retry-exceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+
+bucket4j:
+  capacity: 100

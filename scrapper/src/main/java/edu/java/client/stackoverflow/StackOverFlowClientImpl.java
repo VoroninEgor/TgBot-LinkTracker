@@ -2,6 +2,7 @@ package edu.java.client.stackoverflow;
 
 import edu.java.dto.stackoverflow.AnswersFetchResponse;
 import edu.java.dto.stackoverflow.QuestionResponse;
+import io.github.resilience4j.retry.annotation.Retry;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class StackOverFlowClientImpl implements StackOverFlowClient {
         webClient = WebClient.create(BASEURL);
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public QuestionResponse fetchQuestion(Long id) {
         return webClient
@@ -38,6 +40,7 @@ public class StackOverFlowClientImpl implements StackOverFlowClient {
             .block();
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public AnswersFetchResponse fetchAnswersSince(Long questionId, OffsetDateTime since) {
         List<AnswersFetchResponse.Answer> answers = webClient

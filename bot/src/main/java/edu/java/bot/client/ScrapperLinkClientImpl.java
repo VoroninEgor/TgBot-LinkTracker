@@ -4,6 +4,7 @@ import edu.java.bot.dto.AddLinkRequest;
 import edu.java.bot.dto.LinkResponse;
 import edu.java.bot.dto.ListLinksResponse;
 import edu.java.bot.dto.RemoveLinkRequest;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,6 +25,7 @@ public class ScrapperLinkClientImpl implements ScrapperLinkClient {
         webClient = WebClient.create(baseUrl);
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public LinkResponse removeLinkByChatId(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
         return webClient.method(HttpMethod.DELETE)
@@ -35,6 +37,7 @@ public class ScrapperLinkClientImpl implements ScrapperLinkClient {
             .block();
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public ListLinksResponse getLinksByChatId(Long tgChatId) {
         return webClient.get()
@@ -45,6 +48,7 @@ public class ScrapperLinkClientImpl implements ScrapperLinkClient {
             .block();
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public LinkResponse postLinkByChatId(Long tgChatId, AddLinkRequest addLinkRequest) {
         log.info("Post link: {} to tgChat: {}", addLinkRequest, tgChatId);

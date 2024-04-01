@@ -1,6 +1,7 @@
 package edu.java.client.bot;
 
 import edu.java.dto.link.LinkUpdateRequest;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class BotClientImpl implements BotClient {
@@ -15,6 +16,7 @@ public class BotClientImpl implements BotClient {
         webClient = WebClient.create(baseUrl);
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public void updatesPost(LinkUpdateRequest linkUpdate) {
         webClient.post()

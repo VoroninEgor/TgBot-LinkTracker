@@ -3,6 +3,7 @@ package edu.java.client.github;
 import edu.java.dto.github.GitHubCommitResponse;
 import edu.java.dto.github.GitHubPullRequestResponse;
 import edu.java.dto.github.RepoResponse;
+import io.github.resilience4j.retry.annotation.Retry;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ public class GitHubClientImpl implements GitHubClient {
         webClient = WebClient.create(BASEURL);
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public RepoResponse fetchRepo(String username, String repoName) {
         return webClient
@@ -34,6 +36,7 @@ public class GitHubClientImpl implements GitHubClient {
             .block();
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public List<GitHubCommitResponse> fetchCommitsSince(String username, String repoName, OffsetDateTime since) {
         return webClient.get()
@@ -47,6 +50,7 @@ public class GitHubClientImpl implements GitHubClient {
             .block();
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public List<GitHubPullRequestResponse> fetchPullRequestsSince(
         String username, String repoName, OffsetDateTime since

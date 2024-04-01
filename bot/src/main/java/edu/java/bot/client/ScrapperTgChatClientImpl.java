@@ -1,6 +1,7 @@
 package edu.java.bot.client;
 
 import edu.java.bot.exception.ApiErrorResponse;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -22,6 +23,7 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
         webClient = WebClient.create(baseUrl);
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public void removeById(Long id) {
         webClient.delete()
@@ -32,12 +34,13 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
             .block();
     }
 
+    @Retry(name = "defaultRetry")
     @Override
     public void create(Long id) {
         webClient.post()
             .uri(BASE_ENDPOINT_WITH_PATH_VAR, id)
             .retrieve()
-            .onStatus(HttpStatusCode::isError, this::handleError)
+            .onStatus(HttpStatusCode::is4xxClientError, this::handleError)
             .toBodilessEntity()
             .block();
     }

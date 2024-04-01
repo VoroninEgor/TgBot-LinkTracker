@@ -3,7 +3,7 @@ app:
     enable: true
     interval: 10s
     force-check-delay: 1m
-  database-access-type: jpa
+  database-access-type: jdbc
 
 spring:
   application:
@@ -29,3 +29,18 @@ logging:
 springdoc:
   swagger-ui:
     path: "/swagger-ui"
+
+resilience4j:
+  retry:
+    configs:
+      default:
+        max-attempts: 3
+        wait-duration: 2s
+        enable-exponential-backoff: true
+        retry-exceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+
+bucket4j:
+  capacity: 100
