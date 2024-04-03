@@ -33,7 +33,7 @@ class GitHubClientImplTest extends AbstractTest {
     }
 
     @Test
-    void fetchRepo_shouldReturnRepoResponseWithUpdatedAt() {
+    void fetchRepoShouldReturnRepoResponseWithUpdatedAt() {
         String bodyJson = jsonToString("src/test/resources/github.json");
 
         stubFor(get(format("/repos/%s/%s", owner, repo)).willReturn(aResponse()
@@ -58,8 +58,11 @@ class GitHubClientImplTest extends AbstractTest {
             .withBody(bodyJson)));
 
         List<GitHubCommitResponse> gitHubCommitResponses = gitHubClient.fetchCommitsSince(owner, repo, since);
+        GitHubCommitResponse firstResponse = gitHubCommitResponses.getFirst();
 
         assertEquals(3, gitHubCommitResponses.size());
+        assertEquals("feat: add services", firstResponse.commit().message());
+        assertEquals("2024-03-18T23:52:22Z", firstResponse.commit().author().date());
     }
 
     @Test
