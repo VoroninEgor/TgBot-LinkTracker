@@ -34,7 +34,7 @@ public class JpaLinkService implements LinkService {
     @Override
     public LinkResponse untrackLinkForUser(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
         TgChat tgChat = tgChatRepo.findById(tgChatId).orElseThrow();
-        Link link = linkRepo.getLinkByUrl(removeLinkRequest.link().toString()).orElseThrow();
+        Link link = linkRepo.findLinkByUrl(removeLinkRequest.link().toString()).orElseThrow();
         Long tgChatLinksId = tgChat.getTgChatLinks().stream()
             .filter(chatLink -> chatLink.getLink().getUrl().equals(link.getUrl()))
             .findFirst()
@@ -78,29 +78,22 @@ public class JpaLinkService implements LinkService {
                 .build();
         }
 
-        Optional<Link> optionalLink = linkRepo.getLinkByUrl(url);
+        Optional<Link> optionalLink = linkRepo.findLinkByUrl(url);
+        Link link;
 
         if (optionalLink.isEmpty()) {
             log.info("link {} not exist yet", url);
-            Link linkAfterSave = linkRepo.save(Link.builder().url(url).lastCheck(OffsetDateTime.now()).build());
-
-            TgChatLink tgChatLink = new TgChatLink();
-            tgChatLink.setChat(tgChat);
-            tgChatLink.setLink(linkAfterSave);
-            tgChatLinkRepo.save(tgChatLink);
-
-            return LinkResponse.builder()
-                .id(linkAfterSave.getId())
-                .link(URI.create(linkAfterSave.getUrl()))
-                .build();
+            link = linkRepo.save(Link.builder().url(url).lastCheck(OffsetDateTime.now()).build());
+        } else {
+            log.info("link {} already exist", url);
+            link = optionalLink.get();
         }
 
-        log.info("link {} already exist", url);
-        Link link = optionalLink.get();
         TgChatLink tgChatLink = new TgChatLink();
         tgChatLink.setChat(tgChat);
         tgChatLink.setLink(link);
         tgChatLinkRepo.save(tgChatLink);
+
         return LinkResponse.builder()
             .id(link.getId())
             .link(URI.create(link.getUrl()))
@@ -111,7 +104,7 @@ public class JpaLinkService implements LinkService {
     @Override
     public List<LinkUpdateResponse> findLinksToCheckForUpdates(Long forceCheckDelay) {
         List<Link> allByLastCheckBefore =
-            linkRepo.findAllByLastCheckBefore(OffsetDateTime.now(ZoneOffset.UTC).minusMinutes(forceCheckDelay));
+            linkRepo.getAllByLastCheckBefore(OffsetDateTime.now(ZoneOffset.UTC).minusMinutes(forceCheckDelay));
         return allByLastCheckBefore.stream()
             .map(l -> new LinkUpdateResponse(l.getId(), URI.create(l.getUrl()), l.getLastCheck()))
             .toList();
@@ -120,7 +113,7 @@ public class JpaLinkService implements LinkService {
     @Transactional
     @Override
     public void updateLink(URI link, OffsetDateTime lastCheck) {
-        Link linkToUpdate = linkRepo.getLinkByUrl(link.toString()).orElseThrow();
+        Link linkToUpdate = linkRepo.findLinkByUrl(link.toString()).orElseThrow();
         linkToUpdate.setLastCheck(lastCheck);
         linkRepo.save(linkToUpdate);
     }

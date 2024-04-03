@@ -20,7 +20,10 @@ import static org.mockito.Mockito.when;
 class MessageUtilsTest {
 
     ScrapperLinkClient scrapperLinkClient = mock(ScrapperLinkClientImpl.class);
+    ScrapperTgChatClient scrapperTgChatClient = mock(ScrapperTgChatClientImpl.class);
     MessageUtils messageUtils = new MessageUtils(scrapperLinkClient);
+    StartCommand startCommand = new StartCommand(scrapperTgChatClient);
+    ListCommand listCommand = new ListCommand(messageUtils);
 
     @Test
     public void getEmptyTrackList() {
@@ -43,11 +46,6 @@ class MessageUtilsTest {
 
     @Test
     public void getCommandsDescription() {
-        ScrapperTgChatClient scrapperTgChatClient = mock(ScrapperTgChatClientImpl.class);
-
-        StartCommand startCommand = new StartCommand(scrapperTgChatClient);
-        ListCommand listCommand = new ListCommand(messageUtils);
-
         assertEquals(
             "Available commands:\n/list | Write tracking resources\n/list | Write tracking resources"
             , messageUtils.getCommandsDescription(List.of(startCommand, listCommand, listCommand)));

@@ -11,7 +11,6 @@ import edu.java.service.TgChatService;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,21 +31,22 @@ public class JpaTgChatService implements TgChatService {
     @Transactional
     @Override
     public void register(Long id) {
-        TgChat tgChat = new TgChat();
-        tgChat.setId(id);
-        tgChat.setCreatedAt(OffsetDateTime.now());
         Optional<TgChat> optionalTgChat = tgChatRepo.findById(id);
 
         if (optionalTgChat.isPresent()) {
             throw new TgChatAlreadyRegisteredException();
         }
 
+        TgChat tgChat = new TgChat();
+        tgChat.setId(id);
+        tgChat.setCreatedAt(OffsetDateTime.now());
+
         tgChatRepo.save(tgChat);
     }
 
     @Override
     public List<Long> fetchTgChatsIdByLink(URI link) {
-        Link linkByUrl = linkRepo.getLinkByUrl(link.toString()).orElseThrow();
+        Link linkByUrl = linkRepo.findLinkByUrl(link.toString()).orElseThrow();
 
         return linkByUrl.getTgChatLinks().stream()
             .map(v -> v.getChat().getId())
@@ -55,14 +55,10 @@ public class JpaTgChatService implements TgChatService {
 
     @Override
     public TgChatResponse fetchById(Long id) {
-        try {
-            TgChat tgChat = tgChatRepo.findById(id).orElseThrow();
-            return TgChatResponse.builder()
-                .id(tgChat.getId())
-                .createdAt(tgChat.getCreatedAt())
-                .build();
-        } catch (NoSuchElementException e) {
-            throw new TgChatNotExistException();
-        }
+        TgChat tgChat = tgChatRepo.findById(id).orElseThrow(TgChatNotExistException::new);
+        return TgChatResponse.builder()
+            .id(tgChat.getId())
+            .createdAt(tgChat.getCreatedAt())
+            .build();
     }
 }

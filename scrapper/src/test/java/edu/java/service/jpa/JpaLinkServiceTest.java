@@ -7,9 +7,10 @@ import edu.java.dto.link.RemoveLinkRequest;
 import edu.java.entity.Link;
 import edu.java.entity.TgChat;
 import edu.java.repository.LinkRepo;
-import edu.java.repository.TgChatLinkRepo;
 import edu.java.repository.TgChatRepo;
 import edu.java.scrapper.IntegrationTest;
+import edu.java.service.LinkService;
+import edu.java.service.TgChatService;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -29,17 +30,14 @@ class JpaLinkServiceTest extends IntegrationTest {
     @Autowired
     TgChatRepo tgChatRepo;
     @Autowired
-    TgChatLinkRepo tgChatLinkRepo;
-    @Autowired
     JdbcTemplate jdbcTemplate;
-
-    JpaTgChatService tgChatService;
-    JpaLinkService linkService;
+    @Autowired
+    TgChatService tgChatService;
+    @Autowired
+    LinkService linkService;
 
     @BeforeEach
     void setUp() {
-        tgChatService = new JpaTgChatService(linkRepo, tgChatRepo);
-        linkService = new JpaLinkService(linkRepo, tgChatRepo, tgChatLinkRepo);
         jdbcTemplate.update("DELETE FROM tgchats WHERE 1=1");
         jdbcTemplate.update("DELETE FROM links WHERE 1=1");
     }
@@ -123,7 +121,7 @@ class JpaLinkServiceTest extends IntegrationTest {
         OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
         linkService.updateLink(URI.create(url), now);
 
-        Link linkByUrlAfterUpdate = linkRepo.getLinkByUrl(url).orElseThrow();
+        Link linkByUrlAfterUpdate = linkRepo.findLinkByUrl(url).orElseThrow();
 
         assertEquals(now.withNano(0), linkByUrlAfterUpdate.getLastCheck().withNano(0));
     }

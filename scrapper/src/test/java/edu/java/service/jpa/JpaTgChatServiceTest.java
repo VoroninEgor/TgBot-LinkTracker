@@ -4,10 +4,9 @@ import edu.java.dto.link.AddLinkRequest;
 import edu.java.dto.tgchatlinks.TgChatResponse;
 import edu.java.exception.TgChatAlreadyRegisteredException;
 import edu.java.exception.TgChatNotExistException;
-import edu.java.repository.LinkRepo;
-import edu.java.repository.TgChatLinkRepo;
-import edu.java.repository.TgChatRepo;
 import edu.java.scrapper.IntegrationTest;
+import edu.java.service.LinkService;
+import edu.java.service.TgChatService;
 import java.net.URI;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,21 +22,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class JpaTgChatServiceTest extends IntegrationTest {
 
     @Autowired
-    LinkRepo linkRepo;
-    @Autowired
-    TgChatRepo tgChatRepo;
-    @Autowired
-    TgChatLinkRepo tgChatLinkRepo;
-    @Autowired
     JdbcTemplate jdbcTemplate;
-
-    JpaTgChatService tgChatService;
-    JpaLinkService linkService;
+    @Autowired
+    TgChatService tgChatService;
+    @Autowired
+    LinkService linkService;
 
     @BeforeEach
     void setUp() {
-        tgChatService = new JpaTgChatService(linkRepo, tgChatRepo);
-        linkService = new JpaLinkService(linkRepo, tgChatRepo, tgChatLinkRepo);
         jdbcTemplate.update("DELETE FROM tgchats WHERE 1=1");
         jdbcTemplate.update("DELETE FROM links WHERE 1=1");
     }
