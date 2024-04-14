@@ -19,6 +19,12 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  kafka:
+    topic: "updates-topic"
+    bootstrap-servers: "localhost:9092"
+    producer:
+      properties:
+        spring.json.add.type.headers: false
 
 server:
   port: 8080
