@@ -4,6 +4,7 @@ app:
     interval: 10s
     force-check-delay: 1m
   database-access-type: jdbc
+  use-queue: true
 
 spring:
   application:
@@ -21,7 +22,7 @@ spring:
     show-sql: true
   kafka:
     topic: "updates-topic"
-    bootstrap-servers: "localhost:9092"
+    bootstrap-servers: "localhost:29092"
     producer:
       properties:
         spring.json.add.type.headers: false

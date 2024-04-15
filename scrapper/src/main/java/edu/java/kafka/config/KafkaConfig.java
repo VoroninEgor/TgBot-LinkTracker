@@ -1,7 +1,7 @@
 package edu.java.kafka.config;
 
 import edu.java.dto.link.LinkUpdateRequest;
-import edu.java.kafka.service.DataSenderKafka;
+import edu.java.kafka.service.ScrapperQueueProducer;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -51,7 +51,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public DataSenderKafka dataSenderKafka(KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate, NewTopic topic) {
-        return new DataSenderKafka(kafkaTemplate, topic.name());
+    public ScrapperQueueProducer dataSenderKafka(KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate, NewTopic topic) {
+        return new ScrapperQueueProducer(kafkaTemplate, topic.name());
     }
 }

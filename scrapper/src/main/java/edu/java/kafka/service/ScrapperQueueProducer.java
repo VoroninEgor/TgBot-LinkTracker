@@ -5,13 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 
 @Slf4j
-public class DataSenderKafka implements DataSender {
+public class ScrapperQueueProducer implements DataSender {
 
     private final KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate;
 
     private final String topic;
 
-    public DataSenderKafka(KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate, String topic) {
+    public ScrapperQueueProducer(KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate, String topic) {
         this.kafkaTemplate = kafkaTemplate;
         this.topic = topic;
     }
