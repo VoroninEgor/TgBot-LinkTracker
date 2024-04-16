@@ -51,7 +51,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ScrapperQueueProducer dataSenderKafka(KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate, NewTopic topic) {
+    public ScrapperQueueProducer dataSender(KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate, NewTopic topic) {
         return new ScrapperQueueProducer(kafkaTemplate, topic.name());
     }
 }
