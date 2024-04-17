@@ -14,8 +14,16 @@ public class KafkaConfig {
     @Value("${spring.kafka.topic}")
     private String topicName;
 
+    @Value("${spring.kafka.topic-dlq}")
+    private String topicDlqName;
+
     @Bean
     public NewTopic topic() {
         return TopicBuilder.name(topicName).partitions(1).replicas(1).build();
+    }
+
+    @Bean
+    public NewTopic topicDlq() {
+        return TopicBuilder.name(topicDlqName).partitions(1).replicas(1).build();
     }
 }

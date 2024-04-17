@@ -10,8 +10,10 @@ spring:
     import: optional:file:.env[.properties]
   kafka:
     topic: "updates-topic"
+    topic-dlq: "updates-topic-dlq"
     bootstrap-servers: "localhost:29092"
     consumer:
+      auto-offset-reset: earliest
       group-id: "demo-group"
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
