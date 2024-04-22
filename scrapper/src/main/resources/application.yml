@@ -5,6 +5,8 @@ app:
     force-check-delay: 1m
   database-access-type: jdbc
   use-queue: true
+  topic: "updates-topic"
+  producer-client-id: demo-producer
 
 spring:
   application:
@@ -21,7 +23,6 @@ spring:
       ddl-auto: none
     show-sql: true
   kafka:
-    topic: "updates-topic"
     bootstrap-servers: "localhost:29092"
     producer:
       properties:

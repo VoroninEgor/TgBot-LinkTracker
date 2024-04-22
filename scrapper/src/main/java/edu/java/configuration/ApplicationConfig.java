@@ -13,7 +13,11 @@ public record ApplicationConfig(
     @NotNull
     AccessType databaseAccessType,
     @NotNull
-    boolean useQueue
+    boolean useQueue,
+    @NotNull
+    String topic,
+    @NotNull
+    String producerClientId
 ) {
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
     }

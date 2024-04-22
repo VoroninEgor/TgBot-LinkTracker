@@ -1,5 +1,6 @@
 package edu.java.kafka.config;
 
+import edu.java.configuration.ApplicationConfig;
 import edu.java.dto.link.LinkUpdateRequest;
 import edu.java.kafka.service.ScrapperQueueProducer;
 import java.util.Map;
@@ -21,23 +22,25 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 @Slf4j
 public class KafkaConfig {
 
-    @Value(value = "${spring.kafka.bootstrap-servers}")
-    private String bootstrapAddress;
-
-    @Value("${spring.kafka.topic}")
-    private String topicName;
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
 
     @Bean
-    public NewTopic topic() {
-        return TopicBuilder.name(topicName).partitions(1).replicas(1).build();
+    public NewTopic topic(ApplicationConfig config) {
+        return TopicBuilder.name(config.topic())
+            .partitions(1)
+            .replicas(1)
+            .build();
     }
 
     @Bean
-    public ProducerFactory<String, LinkUpdateRequest> producerFactory(KafkaProperties kafkaProperties) {
+    public ProducerFactory<String, LinkUpdateRequest> producerFactory(
+        KafkaProperties kafkaProperties, ApplicationConfig config
+    ) {
         Map<String, Object> configProps = kafkaProperties.buildProducerProperties(null);
 
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        configProps.put(ProducerConfig.CLIENT_ID_CONFIG, "demo-producer");
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        configProps.put(ProducerConfig.CLIENT_ID_CONFIG, config.producerClientId());
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);

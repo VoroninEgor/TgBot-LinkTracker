@@ -1,6 +1,7 @@
 package edu.java.kafka;
 
 import edu.java.scrapper.IntegrationTest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.KafkaContainer;
@@ -8,6 +9,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers
+@Slf4j
 public abstract class KafkaEnvTest extends IntegrationTest {
     public static KafkaContainer KAFKA;
 
@@ -19,5 +21,6 @@ public abstract class KafkaEnvTest extends IntegrationTest {
     @DynamicPropertySource
     static void kafkaProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.kafka.bootstrap-servers", KAFKA::getBootstrapServers);
+        registry.add("spring.kafka.producer.bootstrap-servers", KAFKA::getBootstrapServers);
     }
 }
