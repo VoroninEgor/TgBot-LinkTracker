@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class ScrapperQueueProducerTest extends KafkaEnvTest {
+class ScrapperQueueProducerTest extends KafkaEnvTest{
 
     @Autowired
     ScrapperQueueProducer scrapperQueueProducer;

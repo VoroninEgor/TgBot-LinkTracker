@@ -15,10 +15,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@WireMockTest(httpPort = 8080)
+@WireMockTest(httpPort = 8085)
 class StackOverFlowClientImplTest extends AbstractTest {
 
-    String baseUrl = "http://localhost:8080";
+    String baseUrl = "http://localhost:8085";
     StackOverFlowClientImpl stackOverFlowClient = new StackOverFlowClientImpl(baseUrl);
     Long id = 5L;
 

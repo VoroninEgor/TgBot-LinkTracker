@@ -1,7 +1,6 @@
 package edu.java.kafka;
 
-import edu.java.ScrapperApplication;
-import org.springframework.boot.test.context.SpringBootTest;
+import edu.java.scrapper.IntegrationTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.KafkaContainer;
@@ -9,8 +8,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers
-@SpringBootTest(classes = ScrapperApplication.class)
-public abstract class KafkaEnvTest {
+public abstract class KafkaEnvTest extends IntegrationTest {
     public static KafkaContainer KAFKA;
 
     static {

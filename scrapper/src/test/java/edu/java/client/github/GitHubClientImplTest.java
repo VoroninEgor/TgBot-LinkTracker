@@ -16,7 +16,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@WireMockTest(httpPort = 8080)
+@WireMockTest(httpPort = 8085)
 class GitHubClientImplTest extends AbstractTest {
 
     String baseUrl;
@@ -26,7 +26,7 @@ class GitHubClientImplTest extends AbstractTest {
 
     @BeforeEach
     void setUp() {
-        baseUrl = "http://localhost:8080";
+        baseUrl = "http://localhost:8085";
         gitHubClient = new GitHubClientImpl(baseUrl);
         owner = "owner";
         repo = "repo";
