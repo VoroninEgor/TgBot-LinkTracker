@@ -2,6 +2,7 @@ package edu.java.bot.kafka;
 
 import edu.java.bot.dto.LinkUpdateRequest;
 import edu.java.bot.service.UpdatesService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.DltHandler;
@@ -12,10 +13,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class KafkaMessageConsumer {
 
     @Autowired
-    private UpdatesService updatesService;
+    private final UpdatesService updatesService;
 
     @KafkaListener(topics = "${spring.kafka.topic}",
                    groupId = "${spring.kafka.consumer.group-id}",

@@ -1,20 +1,17 @@
 package edu.java.kafka.service;
 
 import edu.java.dto.link.LinkUpdateRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 
 @Slf4j
+@RequiredArgsConstructor
 public class ScrapperQueueProducer implements DataSender {
 
     private final KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate;
 
     private final String topic;
-
-    public ScrapperQueueProducer(KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate, String topic) {
-        this.kafkaTemplate = kafkaTemplate;
-        this.topic = topic;
-    }
 
     @Override
     public void send(LinkUpdateRequest message) {
