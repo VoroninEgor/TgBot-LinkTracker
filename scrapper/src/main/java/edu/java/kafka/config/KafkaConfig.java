@@ -2,6 +2,7 @@ package edu.java.kafka.config;
 
 import edu.java.configuration.ApplicationConfig;
 import edu.java.dto.link.LinkUpdateRequest;
+import edu.java.kafka.service.DataSender;
 import edu.java.kafka.service.ScrapperQueueProducer;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +56,8 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ScrapperQueueProducer dataSender(KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate, NewTopic topic) {
+    @ConditionalOnProperty(prefix = "app", value = "use-queue", havingValue = "true")
+    public DataSender dataSender(KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate, NewTopic topic) {
         return new ScrapperQueueProducer(kafkaTemplate, topic.name());
     }
 }

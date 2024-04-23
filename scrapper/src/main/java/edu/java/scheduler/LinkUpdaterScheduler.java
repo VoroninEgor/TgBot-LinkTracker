@@ -1,7 +1,5 @@
 package edu.java.scheduler;
 
-import edu.java.client.bot.BotClient;
-import edu.java.configuration.ApplicationConfig;
 import edu.java.dto.LastUpdate;
 import edu.java.dto.link.LinkUpdateRequest;
 import edu.java.dto.link.LinkUpdateResponse;
@@ -26,11 +24,8 @@ public class LinkUpdaterScheduler {
     private final LinkService linkService;
     private final TgChatService tgChatService;
     private final LinkUpdateChecker linkUpdateChecker;
-    private final BotClient botClient;
-    private final DataSender scrapperQueueProducer;
+    private final DataSender updatesSender;
     private final Long forceCheckDelay;
-
-    private final ApplicationConfig applicationConfig;
 
     @Scheduled(fixedDelayString = "#{@schedulerIntervalMs}")
     public void update() {
@@ -41,11 +36,7 @@ public class LinkUpdaterScheduler {
 
         log.info("Updated links: {}", linksToUpdate);
 
-        if (applicationConfig.useQueue()) {
-            linksToUpdate.forEach(scrapperQueueProducer::send);
-        } else {
-            linksToUpdate.forEach(botClient::updatesPost);
-        }
+        linksToUpdate.forEach(updatesSender::send);
     }
 
     private List<LinkUpdateRequest> getLinksToUpdate(List<LinkUpdateResponse> linksToCheckForUpdates) {

@@ -1,10 +1,11 @@
 package edu.java.client.bot;
 
 import edu.java.dto.link.LinkUpdateRequest;
+import edu.java.kafka.service.DataSender;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.web.reactive.function.client.WebClient;
 
-public class BotClientImpl implements BotClient {
+public class BotClientImpl implements DataSender {
     private final static String BASEURL = "http://localhost:8090/";
     private final WebClient webClient;
 
@@ -18,7 +19,7 @@ public class BotClientImpl implements BotClient {
 
     @Retry(name = "defaultRetry")
     @Override
-    public void updatesPost(LinkUpdateRequest linkUpdate) {
+    public void send(LinkUpdateRequest linkUpdate) {
         webClient.post()
             .uri("/updates")
             .bodyValue(linkUpdate)

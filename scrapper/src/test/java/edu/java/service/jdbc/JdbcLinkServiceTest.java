@@ -1,7 +1,7 @@
 package edu.java.service.jdbc;
 
+import edu.java.AbstractIntegrationTest;
 import edu.java.dto.link.LinkUpdateResponse;
-import edu.java.scrapper.IntegrationTest;
 import edu.java.service.LinkService;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class JdbcLinkServiceTest extends IntegrationTest {
+class JdbcLinkServiceTest extends AbstractIntegrationTest {
 
     @Autowired
     LinkService linkService;

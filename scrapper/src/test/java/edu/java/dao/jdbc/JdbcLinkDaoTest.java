@@ -1,8 +1,8 @@
 package edu.java.dao.jdbc;
 
+import edu.java.AbstractIntegrationTest;
 import edu.java.dto.link.LinkResponse;
 import edu.java.dto.link.LinkUpdateResponse;
-import edu.java.scrapper.IntegrationTest;
 import java.time.OffsetDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class JdbcLinkDaoTest extends IntegrationTest {
+class JdbcLinkDaoTest extends AbstractIntegrationTest {
 
     @Autowired
     JdbcLinkDao jdbcLinkDao;

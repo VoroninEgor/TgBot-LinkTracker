@@ -1,5 +1,6 @@
 package edu.java.service.jpa;
 
+import edu.java.AbstractIntegrationTest;
 import edu.java.dto.link.AddLinkRequest;
 import edu.java.dto.link.LinkUpdateResponse;
 import edu.java.dto.link.ListLinksResponse;
@@ -8,7 +9,6 @@ import edu.java.entity.Link;
 import edu.java.entity.TgChat;
 import edu.java.repository.LinkRepo;
 import edu.java.repository.TgChatRepo;
-import edu.java.scrapper.IntegrationTest;
 import edu.java.service.LinkService;
 import edu.java.service.TgChatService;
 import java.net.URI;
@@ -23,7 +23,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class JpaLinkServiceTest extends IntegrationTest {
+class JpaLinkServiceTest extends AbstractIntegrationTest {
 
     @Autowired
     LinkRepo linkRepo;

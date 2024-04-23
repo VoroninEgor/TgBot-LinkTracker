@@ -1,6 +1,6 @@
 package edu.java.scrapper;
 
-import java.io.IOException;
+import edu.java.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,13 +8,13 @@ import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MigrationsTest extends IntegrationTest{
+public class MigrationsTest extends AbstractIntegrationTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Test
-    void initTablesShouldBeCrested() throws IOException, InterruptedException {
+    void initTablesShouldBeCrested() {
         String linksTableExistQuery = sqlQueryTableExists("links");
         String tgchatsTableExistQuery = sqlQueryTableExists("tgchats");
         String tgchatLinksTableExistQuery = sqlQueryTableExists("tgchat_links");

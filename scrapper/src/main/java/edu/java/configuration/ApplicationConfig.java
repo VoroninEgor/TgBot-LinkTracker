@@ -13,7 +13,7 @@ public record ApplicationConfig(
     @NotNull
     AccessType databaseAccessType,
     @NotNull
-    boolean useQueue,
+    String useQueue,
     @NotNull
     String topic,
     @NotNull

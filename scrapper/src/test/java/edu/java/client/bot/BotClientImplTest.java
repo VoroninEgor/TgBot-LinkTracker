@@ -4,6 +4,8 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import edu.java.client.AbstractTest;
 import edu.java.dto.link.LinkUpdateRequest;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 
 import java.net.URI;
 import java.util.List;
@@ -13,6 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @WireMockTest(httpPort = 8090)
 class BotClientImplTest extends AbstractTest {
+
+    @DynamicPropertySource
+    static void kafkaProperties(DynamicPropertyRegistry registry) {
+        registry.add("app.use-queue", () -> "false");
+    }
 
     @Test
     void updatesPost() {
@@ -29,7 +36,7 @@ class BotClientImplTest extends AbstractTest {
             .withRequestBody(equalToJson(expectedJson))
             .willReturn(aResponse()));
 
-        assertDoesNotThrow(() -> botClient.updatesPost(linkUpdate));
+        assertDoesNotThrow(() -> botClient.send(linkUpdate));
 
     }
 }

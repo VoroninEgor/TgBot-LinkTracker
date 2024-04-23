@@ -2,13 +2,14 @@ package edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import edu.java.bot.AbstractIntegrationTest;
 import edu.java.bot.client.ScrapperTgChatClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class StartCommandTest extends AbstractCommandTest {
+class StartCommandTest extends AbstractIntegrationTest {
 
     @Autowired
     StartCommand startCommand;

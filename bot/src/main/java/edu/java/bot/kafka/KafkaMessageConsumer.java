@@ -19,7 +19,7 @@ public class KafkaMessageConsumer {
     @Autowired
     private final UpdatesService updatesService;
 
-    @KafkaListener(topics = "${spring.kafka.topic}",
+    @KafkaListener(topics = "${app.topic}",
                    groupId = "${spring.kafka.consumer.group-id}",
                    properties = {"spring.json.value.default.type=edu.java.bot.dto.LinkUpdateRequest"})
     public void consume(LinkUpdateRequest linkUpdate, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {

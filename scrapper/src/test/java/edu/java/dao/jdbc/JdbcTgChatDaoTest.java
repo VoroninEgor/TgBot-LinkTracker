@@ -1,18 +1,15 @@
 package edu.java.dao.jdbc;
 
-import edu.java.dao.jdbc.JdbcLinkDao;
-import edu.java.dao.jdbc.JdbcTgChatDao;
-import edu.java.dao.jdbc.JdbcTgChatLinksDao;
+import edu.java.AbstractIntegrationTest;
 import edu.java.dto.tgchatlinks.TgChatResponse;
-import edu.java.scrapper.IntegrationTest;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class JdbcTgChatDaoTest extends IntegrationTest {
+class JdbcTgChatDaoTest extends AbstractIntegrationTest {
 
     @Autowired
     JdbcTgChatDao jdbcTgChatDao;
