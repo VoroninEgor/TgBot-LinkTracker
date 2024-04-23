@@ -25,7 +25,7 @@ public class GitHubClientImpl implements GitHubClient {
         webClient = WebClient.create(BASEURL);
     }
 
-    @Retry(name = "defaultRetry")
+    @Retry(name = "fetchRepo")
     @Override
     public RepoResponse fetchRepo(String username, String repoName) {
         return webClient
@@ -36,7 +36,7 @@ public class GitHubClientImpl implements GitHubClient {
             .block();
     }
 
-    @Retry(name = "defaultRetry")
+    @Retry(name = "fetchCommitsSince")
     @Override
     public List<GitHubCommitResponse> fetchCommitsSince(String username, String repoName, OffsetDateTime since) {
         return webClient.get()
@@ -50,7 +50,7 @@ public class GitHubClientImpl implements GitHubClient {
             .block();
     }
 
-    @Retry(name = "defaultRetry")
+    @Retry(name = "fetchPullRequestsSince")
     @Override
     public List<GitHubPullRequestResponse> fetchPullRequestsSince(
         String username, String repoName, OffsetDateTime since

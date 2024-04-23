@@ -23,7 +23,7 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
         webClient = WebClient.create(baseUrl);
     }
 
-    @Retry(name = "defaultRetry")
+    @Retry(name = "removeChatById")
     @Override
     public void removeById(Long id) {
         webClient.delete()
@@ -34,7 +34,7 @@ public class ScrapperTgChatClientImpl implements ScrapperTgChatClient {
             .block();
     }
 
-    @Retry(name = "defaultRetry")
+    @Retry(name = "createChat")
     @Override
     public void create(Long id) {
         webClient.post()

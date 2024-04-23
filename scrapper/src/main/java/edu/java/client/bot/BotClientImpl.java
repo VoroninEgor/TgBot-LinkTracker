@@ -16,7 +16,7 @@ public class BotClientImpl implements BotClient {
         webClient = WebClient.create(baseUrl);
     }
 
-    @Retry(name = "defaultRetry")
+    @Retry(name = "updatesPost")
     @Override
     public void updatesPost(LinkUpdateRequest linkUpdate) {
         webClient.post()

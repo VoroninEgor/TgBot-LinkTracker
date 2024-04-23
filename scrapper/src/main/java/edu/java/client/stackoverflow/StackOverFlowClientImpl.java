@@ -26,7 +26,7 @@ public class StackOverFlowClientImpl implements StackOverFlowClient {
         webClient = WebClient.create(BASEURL);
     }
 
-    @Retry(name = "defaultRetry")
+    @Retry(name = "fetchQuestion")
     @Override
     public QuestionResponse fetchQuestion(Long id) {
         return webClient
@@ -40,7 +40,7 @@ public class StackOverFlowClientImpl implements StackOverFlowClient {
             .block();
     }
 
-    @Retry(name = "defaultRetry")
+    @Retry(name = "fetchAnswersSince")
     @Override
     public AnswersFetchResponse fetchAnswersSince(Long questionId, OffsetDateTime since) {
         List<AnswersFetchResponse.Answer> answers = webClient

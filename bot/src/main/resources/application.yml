@@ -24,12 +24,23 @@ resilience4j:
     configs:
       default:
         max-attempts: 3
-        wait-duration: 2s
+        wait-duration: 100ms
         enable-exponential-backoff: true
         retry-exceptions:
           - org.springframework.web.client.HttpServerErrorException
           - java.util.concurrent.TimeoutException
           - org.springframework.web.reactive.function.client.WebClientRequestException
+    instances:
+      removeLinkByChatId:
+        base-config: default
+      getLinksByChatId:
+        base-config: default
+      postLinkByChatId:
+        base-config: default
+      removeChatById:
+        base-config: default
+      createChat:
+        base-config: default
 
 bucket4j:
   capacity: 100
