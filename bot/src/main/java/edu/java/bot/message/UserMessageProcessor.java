@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.command.AbstractCommand;
 import edu.java.bot.utill.MessageUtils;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,11 @@ public class UserMessageProcessor {
     private final List<AbstractCommand> commands;
     private final MessageUtils messageUtils;
 
+    private final MeterRegistry meterRegistry;
+
     public SendMessage process(Update update) {
+        meterRegistry.counter("msg_count").increment();
+
         String text = update.message().text();
         String commandFromText = messageUtils.parseCommandFromText(text);
 
