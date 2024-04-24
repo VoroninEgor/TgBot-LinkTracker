@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface LinkRepo extends JpaRepository<Link, Long> {
 
-    Optional<Link> getLinkByUrl(String url);
+    Optional<Link> findLinkByUrl(String url);
 
-    List<Link> findAllByLastCheckBefore(OffsetDateTime beforeThisTime);
+    List<Link> getAllByLastCheckBefore(OffsetDateTime beforeThisTime);
 
     @Transactional
     void deleteByUrl(String url);

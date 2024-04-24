@@ -38,5 +38,4 @@ public class TgChat {
                cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @ToString.Exclude
     private List<TgChatLink> tgChatLinks = new ArrayList<>();
-
 }
