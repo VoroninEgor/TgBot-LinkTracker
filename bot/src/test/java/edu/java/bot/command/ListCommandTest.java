@@ -2,6 +2,7 @@ package edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import edu.java.bot.AbstractIntegrationTest;
 import edu.java.bot.client.ScrapperLinkClient;
 import edu.java.bot.dto.LinkResponse;
 import edu.java.bot.dto.ListLinksResponse;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class ListCommandTest extends AbstractCommandTest {
+class ListCommandTest extends AbstractIntegrationTest {
 
     @Autowired
     ListCommand listCommand;

@@ -2,6 +2,7 @@ package edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import edu.java.bot.AbstractIntegrationTest;
 import edu.java.bot.utill.MessageUtils;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HelpCommandTest extends AbstractCommandTest {
+class HelpCommandTest extends AbstractIntegrationTest {
 
     @Autowired
     List<AbstractCommand> commandList;

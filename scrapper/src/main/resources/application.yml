@@ -4,6 +4,9 @@ app:
     interval: 10s
     force-check-delay: 1m
   database-access-type: jdbc
+  use-queue: true
+  topic: "updates-topic"
+  producer-client-id: demo-producer
 
 spring:
   application:
@@ -19,6 +22,11 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  kafka:
+    bootstrap-servers: "localhost:29092"
+    producer:
+      properties:
+        spring.json.add.type.headers: false
 
 server:
   port: 8080

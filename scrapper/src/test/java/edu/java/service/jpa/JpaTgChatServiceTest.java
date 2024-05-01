@@ -1,10 +1,10 @@
 package edu.java.service.jpa;
 
+import edu.java.AbstractIntegrationTest;
 import edu.java.dto.link.AddLinkRequest;
 import edu.java.dto.tgchatlinks.TgChatResponse;
 import edu.java.exception.TgChatAlreadyRegisteredException;
 import edu.java.exception.TgChatNotExistException;
-import edu.java.scrapper.IntegrationTest;
 import edu.java.service.LinkService;
 import edu.java.service.TgChatService;
 import java.net.URI;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class JpaTgChatServiceTest extends IntegrationTest {
+class JpaTgChatServiceTest extends AbstractIntegrationTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;

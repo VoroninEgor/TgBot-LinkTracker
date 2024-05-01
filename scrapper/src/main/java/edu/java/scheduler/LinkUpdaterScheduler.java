@@ -1,9 +1,9 @@
 package edu.java.scheduler;
 
-import edu.java.client.bot.BotClient;
 import edu.java.dto.LastUpdate;
 import edu.java.dto.link.LinkUpdateRequest;
 import edu.java.dto.link.LinkUpdateResponse;
+import edu.java.kafka.service.DataSender;
 import edu.java.service.LinkService;
 import edu.java.service.TgChatService;
 import edu.java.util.LinkUpdateChecker;
@@ -24,7 +24,7 @@ public class LinkUpdaterScheduler {
     private final LinkService linkService;
     private final TgChatService tgChatService;
     private final LinkUpdateChecker linkUpdateChecker;
-    private final BotClient botClient;
+    private final DataSender updatesSender;
     private final Long forceCheckDelay;
 
     @Scheduled(fixedDelayString = "#{@schedulerIntervalMs}")
@@ -36,7 +36,7 @@ public class LinkUpdaterScheduler {
 
         log.info("Updated links: {}", linksToUpdate);
 
-        linksToUpdate.forEach(botClient::updatesPost);
+        linksToUpdate.forEach(updatesSender::send);
     }
 
     private List<LinkUpdateRequest> getLinksToUpdate(List<LinkUpdateResponse> linksToCheckForUpdates) {

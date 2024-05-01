@@ -2,17 +2,18 @@ package edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import edu.java.bot.AbstractIntegrationTest;
 import edu.java.bot.client.ScrapperLinkClient;
 import edu.java.bot.dto.LinkResponse;
+import java.net.URI;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import java.net.URI;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class UntrackCommandTest extends AbstractCommandTest {
+class UntrackCommandTest extends AbstractIntegrationTest {
 
     @Autowired
     UntrackCommand untrackCommand;

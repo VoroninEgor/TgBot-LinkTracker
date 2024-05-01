@@ -18,14 +18,14 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@WireMockTest(httpPort = 8080)
+@WireMockTest(httpPort = 8086)
 class ScrapperLinkClientImplTest extends AbstractTest{
 
     ScrapperLinkClientImpl client;
 
     @BeforeEach
     void setUp() {
-        var baseUrl = "http://localhost:8080";
+        var baseUrl = "http://localhost:8086";
         client = new ScrapperLinkClientImpl(baseUrl);
     }
 

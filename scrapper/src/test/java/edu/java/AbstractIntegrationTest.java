@@ -1,6 +1,5 @@
-package edu.java.scrapper;
+package edu.java;
 
-import edu.java.ScrapperApplication;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.DriverManager;
@@ -16,13 +15,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
+import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers
 @SpringBootTest(classes = ScrapperApplication.class)
-public abstract class IntegrationTest {
+public class AbstractIntegrationTest {
+
     public static PostgreSQLContainer<?> POSTGRES;
+    public static KafkaContainer KAFKA;
 
     static {
         POSTGRES = new PostgreSQLContainer<>("postgres:15")
@@ -36,6 +39,11 @@ public abstract class IntegrationTest {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static {
+        KAFKA = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.3.2"));
+        KAFKA.start();
     }
 
     private static void runMigrations(JdbcDatabaseContainer<?> c) throws FileNotFoundException {
@@ -58,5 +66,11 @@ public abstract class IntegrationTest {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
+    }
+
+    @DynamicPropertySource
+    static void kafkaProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.kafka.bootstrap-servers", KAFKA::getBootstrapServers);
+        registry.add("spring.kafka.producer.bootstrap-servers", KAFKA::getBootstrapServers);
     }
 }

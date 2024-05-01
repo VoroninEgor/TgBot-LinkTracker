@@ -1,14 +1,13 @@
 package edu.java.dao.jooq;
 
-import edu.java.scrapper.IntegrationTest;
+import edu.java.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class JooqTgChatLinksDaoTest extends IntegrationTest {
+class JooqTgChatLinksDaoTest extends AbstractIntegrationTest {
 
     @Autowired
     JooqLinkDao linkDao;
