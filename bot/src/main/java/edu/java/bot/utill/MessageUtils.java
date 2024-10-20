@@ -3,6 +3,7 @@ package edu.java.bot.utill;
 import edu.java.bot.client.ScrapperLinkClient;
 import edu.java.bot.command.AbstractCommand;
 import edu.java.bot.dto.LinkResponse;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -52,5 +53,11 @@ public class MessageUtils {
 
         int indexOfSpace = text.indexOf(" ");
         return indexOfSpace != -1 ? text.substring(indexOfSpace + 1) : "";
+    }
+
+    public String getAvailableLinksDescription() {
+        String links =
+            Arrays.stream(TrackingLinks.values()).map(TrackingLinks::getName).collect(Collectors.joining(", "));
+        return  "Available links:\n" + links;
     }
 }

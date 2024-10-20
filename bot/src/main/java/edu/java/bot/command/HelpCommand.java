@@ -17,7 +17,7 @@ public class HelpCommand extends AbstractCommand {
     public HelpCommand(List<AbstractCommand> commands, MessageUtils messageUtils) {
         super(COMMAND, DESCRIPTION);
         commands.add(this);
-        message = messageUtils.getCommandsDescription(commands);
+        message = messageUtils.getCommandsDescription(commands) + "\n\n" + messageUtils.getAvailableLinksDescription();
     }
 
     @Override

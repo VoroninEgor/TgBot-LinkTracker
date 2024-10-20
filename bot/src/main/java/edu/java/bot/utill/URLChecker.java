@@ -11,13 +11,14 @@ import org.springframework.http.HttpStatus;
 @UtilityClass
 public class URLChecker {
 
-    private static final String GITHUBLINK = "^https://github\\.com/[^/]+/[^/]+.*$";
-    private static final String STACKOVERFLOWLINK = "^https://stackoverflow\\.com/questions/\\d+/.*$";
-
     public static boolean isValid(String url) {
-        if (!url.matches(GITHUBLINK) && !url.matches(STACKOVERFLOWLINK)) {
-            return false;
+
+        for (TrackingLinks resource : TrackingLinks.values()) {
+            if (!url.matches(resource.getRegexPattern())) {
+                return false;
+            }
         }
+
         HttpURLConnection connection = null;
         try {
             URL u = new URL(url);
